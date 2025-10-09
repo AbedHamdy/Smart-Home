@@ -22,7 +22,15 @@ class RegisterTechnicianRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|max:20',
+            'experience_years' => 'required|integer|min:0|max:80',
+            'category_id' => 'required|integer|exists:categories,id',
+            'skills' => 'nullable|string|max:2000',
+            'experience' => 'nullable|string|max:3000',
+            'cv_file' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+            'notes' => 'nullable|string|max:2000',
         ];
     }
 }

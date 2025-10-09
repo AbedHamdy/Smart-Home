@@ -16,6 +16,7 @@ class Technician extends Model
         "rating",
         "latitude",
         "longitude",
+        "cv_file",
         "verified",
     ];
 

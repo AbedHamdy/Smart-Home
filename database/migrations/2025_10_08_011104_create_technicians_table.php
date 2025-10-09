@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('rating')->default(0);
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
+            $table->string('cv_file')->nullable();
             $table->boolean('verified')->default(false);
             $table->timestamps();
         });
