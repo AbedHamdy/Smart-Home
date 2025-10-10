@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\TechnicianController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\TechnicianRequestsController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -68,4 +69,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete("/admin/management/category/{id}", [CategoryController::class, "destroy"])
         ->where('id', '[1-9][0-9]*')
         ->name("category.destroy");
+
+    // Technician Request
+    Route::get("/admin/management/technician/requests", [TechnicianRequestsController::class, "index"])->name("admin_technician_requests.index");
+    Route::put("/admin/management/technician/{id}/approve", [TechnicianRequestsController::class, "approve"])
+        ->where('id', '[1-9][0-9]*')
+        ->name("admin_technician_requests.approve");
+    Route::put("/admin/management/technician/{id}/reject", [TechnicianRequestsController::class, "reject"])
+        ->where('id', '[1-9][0-9]*')
+        ->name("admin_technician_requests.reject");
+    Route::get("/admin/management/technician/{id}/show", [TechnicianRequestsController::class, "show"])
+        ->where('id', '[1-9][0-9]*')
+        ->name("admin_technician_requests.show");
 });

@@ -1,9 +1,68 @@
-@extends("layouts.app")
+@extends('layouts.app')
 @section('title', 'Technician Registration')
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/technician.css') }}">
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+    <style>
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .file-input-wrapper {
+            width: 100%;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .file-input-label:hover {
+            border-color: #007bff;
+            background-color: #f9f9f9;
+        }
+
+        .file-input-label .input-icon {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            display: none;
+        }
+
+        .file-name {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #444;
+            font-weight: 500;
+            word-wrap: break-word;
+            display: none;
+        }
+
+        .info-text {
+            font-size: 13px;
+            color: #777;
+            margin-top: 5px;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -17,12 +76,12 @@
 
     <div class="registration-container">
         {{-- Message --}}
-        @if(session('error'))
+        @if (session('error'))
             <div class="form-message error">
                 {{ session('error') }}
             </div>
         @endif
-        @if(session('success'))
+        @if (session('success'))
             <div class="form-message success">
                 {{ session('success') }}
             </div>
@@ -76,13 +135,11 @@
                         <span class="input-icon">📱</span>
                     </div>
                 </div>
-
                 <div class="input-group">
                     <label for="experience_years">Years of Experience <span class="required">*</span></label>
                     <div class="input-wrapper">
                         <input type="number" name="experience_years" id="experience_years"
-                            placeholder="Enter your years of experience" value="{{ old('experience_years') }}"
-                            min="0" max="50" step="1" required>
+                            placeholder="Enter your years of experience" value="{{ old('experience_years') }}" required>
                         <span class="input-icon">💼</span>
                     </div>
                 </div>
@@ -95,8 +152,7 @@
                         @foreach ($categories as $category)
                             <label class="checkbox-item flex items-center gap-2 cursor-pointer">
                                 <input type="checkbox" name="category_id" value="{{ $category->id }}"
-                                    class="category-checkbox"
-                                    {{ old('category_id') == $category->id ? 'checked' : '' }}>
+                                    class="category-checkbox" {{ old('category_id') == $category->id ? 'checked' : '' }}>
                                 <span>{{ $category->name }}</span>
                             </label>
                         @endforeach
@@ -117,17 +173,18 @@
             </div>
 
             <div class="input-group">
-                <label for="cv_file">Upload CV / Certificate</label>
-                <div class="file-input-wrapper">
+                <label for="cv_file">Upload CV / Certificate <span class="required">*</span></label>
+                <div class="input-wrapper file-input-wrapper">
                     <label for="cv_file" class="file-input-label">
-                        <span>📎</span>
-                        <span>Choose file (PDF, DOC, DOCX)</span>
+                        <span class="input-icon">📎</span>
+                        <span class="file-text">Choose file (PDF, DOC, DOCX)</span>
                     </label>
                     <input type="file" name="cv_file" id="cv_file" accept=".pdf,.doc,.docx">
                     <div id="fileName" class="file-name" style="display: none;"></div>
                 </div>
                 <p class="info-text">Max file size: 5MB</p>
             </div>
+
 
             <div class="input-group">
                 <label for="notes">Additional Notes</label>
@@ -143,7 +200,7 @@
         </div>
     </div>
 
-    @section('scripts')
-        <script src="{{ asset('js/technician.js') }}"></script>
-    @endsection
+@section('scripts')
+    <script src="{{ asset('js/technician.js') }}"></script>
+@endsection
 @endsection

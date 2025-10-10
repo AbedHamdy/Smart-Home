@@ -17,9 +17,9 @@
             <span class="nav-icon">🔧</span>
             <span>Technicians</span>
         </a>
-        <a href="#" class="nav-item">
-            <span class="nav-icon">📋</span>
-            <span>Requests</span>
+        <a href="{{ route("admin_technician_requests.index") }}" class="nav-item">
+            <span class="nav-icon">🧑</span>
+            <span>Technician Join Requests</span>
         </a>
         <a href="{{ route("category.index") }}" class="nav-item {{ request()->routeIs('category*') ? 'active' : '' }}">
             <span class="nav-icon">🏷️</span>

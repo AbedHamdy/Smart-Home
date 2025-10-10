@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Client;
 use App\Models\Technician;
 use Carbon\Carbon;
@@ -43,13 +44,21 @@ class DashboardAdminController extends Controller
                 $growthPercentage = 100;
             }
 
+        // $categories = Category::
+
+        $techniciansTopRating = Technician::with(['user', 'category'])
+            ->where('rating', '>=', 4.8)
+            ->take(3)
+            ->get();
+
         // dd($growthPercentage);
         return view("Admin.dashboard" , compact(
             "user",
             "totalClient",
             "activeTechnicians",
             "activeTechniciansNow",
-            "growthPercentage"
+            "growthPercentage",
+            "techniciansTopRating",
         ));
     }
 

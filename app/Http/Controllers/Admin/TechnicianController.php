@@ -90,7 +90,7 @@ class TechnicianController extends Controller
                 // 'user_id' => $user->id,
                 'category_id' => $data['category_id'],
                 'experience_years' => $data['experience_years'],
-                'cv_path' => $data['cv_file'],
+                'cv_file' => $data['cv_file'] ?? null,
                 'availability_status' => 'available',
                 'rating' => 0,
             ]);
@@ -120,7 +120,7 @@ class TechnicianController extends Controller
         catch (\Exception $e)
         {
             DB::rollBack();
-            return redirect()->back()->withInput()->with('error', 'Failed to create technician. Please try again.' . $e->getMessage())->withInput();
+            return redirect()->back()->withInput()->with('error', 'Failed to create technician. Please try again.')->withInput();
         }
     }
 
@@ -134,7 +134,7 @@ class TechnicianController extends Controller
         {
             return redirect()->back()->with("error" , "Technician not found. It may have been deleted or does not exist.");
         }
-        
+
         return view('Admin.Technician.show', compact('technician'));
     }
 

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             ClientSeeder::class,
             TechnicianSeeder::class,
+            TechnicianApplicationsSeeder::class,
         ]);
     }
 }

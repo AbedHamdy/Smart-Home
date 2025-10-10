@@ -205,10 +205,7 @@
                             <input type="hidden" name="rating" value="{{ request('rating') }}">
                         @endif
                     </form>
-                    <button class="notification-btn">
-                        <span>🔔</span>
-                        <span class="badge">3</span>
-                    </button>
+                    @include('layouts.notification')
                 </div>
             </header>
 

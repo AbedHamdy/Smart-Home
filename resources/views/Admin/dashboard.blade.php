@@ -23,10 +23,7 @@
                         <input type="text" placeholder="Search...">
                         <span class="search-icon">🔍</span>
                     </div>
-                    <button class="notification-btn">
-                        <span class="notif-icon">🔔</span>
-                        <span class="badge">5</span>
-                    </button>
+                    @include('layouts.notification')
                     <div class="user-menu">
                         <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" alt="Admin">
                         <span class="user-name">Admin</span>
@@ -207,43 +204,26 @@
                 <div class="table-card">
                     <div class="card-header">
                         <h3 class="card-title">⭐ Top Rated Technicians</h3>
-                        <a href="#" class="view-all">View All →</a>
+                        {{-- <a href="#" class="view-all">View All →</a> --}}
                     </div>
                     <div class="technicians-list">
-                        <div class="tech-item">
-                            <img src="https://ui-avatars.com/api/?name=Mohamed+Hassan&background=2563eb" alt="">
-                            <div class="tech-info">
-                                <h4>Mohamed Hassan</h4>
-                                <p>Electrical Specialist</p>
+                        @foreach ($techniciansTopRating as $tech)
+                            <div class="tech-item">
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode(Str::of($tech->user->name)->substr(0, 2)) }}&background=2563eb" alt="image">
+
+                                <div class="tech-info">
+                                    <h4>{{ $tech->user->name }}</h4>
+                                    <p>{{ $tech->category->name ?? 'No specialization' }}</p>
+                                </div>
+
+                                <div class="tech-rating">
+                                    <span class="rating">⭐ {{ number_format($tech->rating, 1) }}</span>
+                                    {{-- <span class="jobs">{{ $tech->completed_jobs_count ?? 0 }} jobs</span> --}}
+                                </div>
                             </div>
-                            <div class="tech-rating">
-                                <span class="rating">⭐ 4.9</span>
-                                <span class="jobs">45 jobs</span>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <img src="https://ui-avatars.com/api/?name=Ali+Mahmoud&background=059669" alt="">
-                            <div class="tech-info">
-                                <h4>Ali Mahmoud</h4>
-                                <p>AC Technician</p>
-                            </div>
-                            <div class="tech-rating">
-                                <span class="rating">⭐ 4.8</span>
-                                <span class="jobs">38 jobs</span>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <img src="https://ui-avatars.com/api/?name=Hassan+Ibrahim&background=7e22ce" alt="">
-                            <div class="tech-info">
-                                <h4>Hassan Ibrahim</h4>
-                                <p>Plumber</p>
-                            </div>
-                            <div class="tech-rating">
-                                <span class="rating">⭐ 4.7</span>
-                                <span class="jobs">32 jobs</span>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
+
                 </div>
             </div>
         </main>

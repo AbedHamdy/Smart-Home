@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('cv_file')->nullable(); // مرفق زي السيرة الذاتية أو شهادة
             $table->enum('status', [
                 'pending',               // لسه تحت المراجعة
-                'interview_scheduled',   // تم تحديد مقابلة
                 'accepted',              // تم القبول وإنشاء الحساب
                 'rejected'               // مرفوض
             ])->default('pending');

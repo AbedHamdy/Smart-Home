@@ -287,10 +287,7 @@
                         <input type="text" placeholder="Search...">
                         <span class="search-icon">🔍</span>
                     </div>
-                    <button class="notification-btn">
-                        <span>🔔</span>
-                        <span class="badge">3</span>
-                    </button>
+                    @include('layouts.notification')
                 </div>
             </header>
 
