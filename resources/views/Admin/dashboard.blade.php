@@ -39,18 +39,18 @@
                 <div class="stat-card blue">
                     <div class="stat-icon">👥</div>
                     <div class="stat-details">
-                        <h3 class="stat-value">1,245</h3>
+                        <h3 class="stat-value">{{ $totalClient }}</h3>
                         <p class="stat-label">Total Clients</p>
-                        <span class="stat-change positive">+12% this month</span>
+                        <span class="stat-change positive">+{{ $growthPercentage }}% this month</span>
                     </div>
                 </div>
 
                 <div class="stat-card green">
                     <div class="stat-icon">🔧</div>
                     <div class="stat-details">
-                        <h3 class="stat-value">89</h3>
+                        <h3 class="stat-value">{{ $activeTechnicians }}</h3>
                         <p class="stat-label">Active Technicians</p>
-                        <span class="stat-change positive">+5 new</span>
+                        <span class="stat-change positive">+{{ $activeTechniciansNow }} new</span>
                     </div>
                 </div>
 

@@ -24,4 +24,9 @@ class Technician extends Model
     {
         return $this->morphOne(User::class, 'userable');
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
@@ -14,47 +16,23 @@ class ClientController extends Controller
     public function index()
     {
         $clients = Client::with('user')->paginate();
+
         return view("Admin.Client.index", compact("clients"));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
-    }
+        $client = Client::with('user')->find($id);
+        if(!$client)
+        {
+            return redirect()->back()->with("error" , "Client not found. It may have been deleted or does not exist.");
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        // dd($client);
+        return view("Admin.Client.show", compact("client"));
     }
 
     /**
@@ -62,6 +40,25 @@ class ClientController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $client = Client::with('user')->find($id);
+        if(!$client)
+        {
+            return redirect()->back()->with("error" , "Client not found. It may have been deleted or does not exist.");
+        }
+
+        DB::beginTransaction();
+        try
+        {
+            $client->user->delete();
+            $client->delete();
+
+            DB::commit();
+            return redirect()->route("admin.client")->with("success" , "Client deleted successfully");
+        }
+        catch(\Exception $e)
+        {
+            DB::rollback();
+            return redirect()->back()->with("error" , "Client deleted failed. Please try again.");
+        }
     }
 }

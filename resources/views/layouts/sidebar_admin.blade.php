@@ -13,7 +13,7 @@
             <span class="nav-icon">👥</span>
             <span>Clients</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="{{ route("admin.technician") }}" class="nav-item {{ request()->routeIs('admin.technician') ? 'active' : '' }}">
             <span class="nav-icon">🔧</span>
             <span>Technicians</span>
         </a>
@@ -21,7 +21,7 @@
             <span class="nav-icon">📋</span>
             <span>Requests</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="{{ route("category.index") }}" class="nav-item {{ request()->routeIs('category*') ? 'active' : '' }}">
             <span class="nav-icon">🏷️</span>
             <span>Categories</span>
         </a>
