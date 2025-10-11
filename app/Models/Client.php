@@ -19,4 +19,9 @@ class Client extends Model
     {
         return $this->morphOne(User::class, 'userable');
     }
+
+    public function serviceRequests()
+    {
+        return $this->hasMany(ServiceRequest::class);
+    }
 }

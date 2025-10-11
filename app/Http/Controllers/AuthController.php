@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\TechnicianApplicationSubmitted;
 
 class AuthController extends Controller
 {
@@ -40,8 +41,10 @@ class AuthController extends Controller
                 case 'admin':
                     return redirect()->route('admin_dashboard')->with('success', 'Welcome Admin!');
                 case 'client':
-                    return redirect()->route('client.dashboard')->with('success', 'Welcome Client!');
+                    // dd($user);
+                    return redirect()->route('client_dashboard')->with('success', 'Welcome Client!');
                 case 'technician':
+                    dd($user);
                     return redirect()->route('technician.dashboard')->with('success', 'Welcome Technician!');
                 default:
                     Auth::logout();
@@ -101,6 +104,13 @@ class AuthController extends Controller
             if(!$technician)
             {
                 throw new \Exception("Failed to create technician application");
+            }
+
+            // $admin->notify(new TechnicianApplicationSubmitted($technician));
+            $admins = User::where('role', 'admin')->get(); // جلب كل الأدمنز
+            foreach($admins as $admin)
+            {
+                $admin->notify(new TechnicianApplicationSubmitted($technician));
             }
 
             DB::commit();

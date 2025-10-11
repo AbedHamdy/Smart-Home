@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Technician;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -65,6 +66,12 @@ class TechnicianController extends Controller
      */
     public function store(CreateTechnicianRequest $request)
     {
+        $user = Auth::user();
+        if(!$user->role == "admin")
+        {
+            return redirect()->route("login")->with("error" , "You are not authorized to access this page.");
+        }
+        
         $data = $request->validated();
         // dd($data);
         DB::beginTransaction();
@@ -129,6 +136,12 @@ class TechnicianController extends Controller
      */
     public function show(string $id)
     {
+        $user = Auth::user();
+        if(!$user->role == "admin")
+        {
+            return redirect()->route("login")->with("error" , "You are not authorized to access this page.");
+        }
+
         $technician = Technician::with(['user', 'category'])->findOrFail($id);
         if(!$technician)
         {

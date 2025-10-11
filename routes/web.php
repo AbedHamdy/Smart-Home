@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\TechnicianController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\TechnicianRequestsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Client\DashboardClientController;
+use App\Http\Controllers\Client\ServiceRequestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,13 +74,34 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Technician Request
     Route::get("/admin/management/technician/requests", [TechnicianRequestsController::class, "index"])->name("admin_technician_requests.index");
-    Route::put("/admin/management/technician/{id}/approve", [TechnicianRequestsController::class, "approve"])
+    Route::put("/admin/management/technician/requests/{id}/approve", [TechnicianRequestsController::class, "approve"])
         ->where('id', '[1-9][0-9]*')
         ->name("admin_technician_requests.approve");
-    Route::put("/admin/management/technician/{id}/reject", [TechnicianRequestsController::class, "reject"])
+    Route::put("/admin/management/technician/requests/{id}/reject", [TechnicianRequestsController::class, "reject"])
         ->where('id', '[1-9][0-9]*')
         ->name("admin_technician_requests.reject");
-    Route::get("/admin/management/technician/{id}/show", [TechnicianRequestsController::class, "show"])
+    Route::get("/admin/management/technician/requests/{id}/show", [TechnicianRequestsController::class, "show"])
         ->where('id', '[1-9][0-9]*')
         ->name("admin_technician_requests.show");
+
+    // Notification
+    Route::get('/notification/{id}/read', function($id) {
+        $notification = auth()->user()->notifications()->findOrFail($id);
+        if (!$notification->read_at)
+        {
+            $notification->markAsRead();
+        }
+        return redirect($notification->data['url'] ?? '/admin/dashboard');
+    })->name('notification.read');
+
+});
+
+// Client
+Route::middleware(['auth', 'client'])->group(function () {
+    // Dashboard
+    Route::get("/client/dashboard", [DashboardClientController::class, "index"])->name("client_dashboard");
+
+    // Request
+    Route::get("/client/create/request", [ServiceRequestController::class, "create"])->name("client.service_request.create");
+    Route::post("/client/store/request", [ServiceRequestController::class, "store"])->name("client.service_request.store");
 });

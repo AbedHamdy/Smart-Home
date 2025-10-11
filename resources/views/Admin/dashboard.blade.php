@@ -25,8 +25,8 @@
                     </div>
                     @include('layouts.notification')
                     <div class="user-menu">
-                        <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" alt="Admin">
-                        <span class="user-name">Admin</span>
+                        <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=2563eb&color=fff" alt="Admin">
+                        <span class="user-name">{{ $user->name }}</span>
                     </div>
                 </div>
             </header>

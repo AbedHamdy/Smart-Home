@@ -17,4 +17,9 @@ class Category extends Model
     {
         return $this->hasMany(Technician::class);
     }
+
+    public function serviceRequests()
+    {
+        return $this->hasMany(ServiceRequest::class);
+    }
 }

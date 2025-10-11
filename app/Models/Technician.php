@@ -29,4 +29,9 @@ class Technician extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function assignedRequests()
+    {
+        return $this->hasMany(ServiceRequest::class);
+    }
 }
