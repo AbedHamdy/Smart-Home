@@ -53,13 +53,14 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="{{ route("client.service_request.create") }}" 
-                class="nav-item {{ request()->routeIs('client.service_request.create') ? 'active' : '' }}">
+            <a href="{{ route("client.service_requests.create") }}"
+                class="nav-item {{ request()->routeIs('client.service_requests.create') ? 'active' : '' }}">
                 <span class="nav-icon">🛠️</span>
                 <span>Request a Service</span>
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{{ route("client.service_request.index") }}"
+                class="nav-item {{ request()->routeIs('client.service_request.*') ? 'active' : '' }}">
                 <span class="nav-icon">📋</span>
                 <span>My Requests</span>
             </a>
@@ -69,7 +70,8 @@
                 <span>Notifications</span>
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{{ route("client_profile") }}"
+                class="nav-item {{ request()->routeIs('client_profile') ? 'active' : '' }}">
                 <span class="nav-icon">👤</span>
                 <span>Profile</span>
             </a>

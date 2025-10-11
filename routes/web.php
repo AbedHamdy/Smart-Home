@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\TechnicianRequestsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Client\DashboardClientController;
+use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\ServiceRequestController;
 use Illuminate\Support\Facades\Route;
 
@@ -102,6 +103,16 @@ Route::middleware(['auth', 'client'])->group(function () {
     Route::get("/client/dashboard", [DashboardClientController::class, "index"])->name("client_dashboard");
 
     // Request
-    Route::get("/client/create/request", [ServiceRequestController::class, "create"])->name("client.service_request.create");
+    Route::get("/client/all/request", [ServiceRequestController::class, "index"])->name("client.service_request.index");
+    Route::get("/client/create/request", [ServiceRequestController::class, "create"])->name("client.service_requests.create");
     Route::post("/client/store/request", [ServiceRequestController::class, "store"])->name("client.service_request.store");
+    Route::get('/client/show/{id}/requests', [ServiceRequestController::class, 'show'])
+        ->where('id', '[1-9][0-9]*')
+        ->name('client.service_request.show');
+    Route::delete('/client/delete/{id}/request', [ServiceRequestController::class, 'destroy'])
+        ->where('id', '[1-9][0-9]*')
+        ->name('client.service_request.destroy');
+
+    // Profile
+    Route::get("/client/profile", [ProfileController::class, "index"])->name("client_profile");
 });

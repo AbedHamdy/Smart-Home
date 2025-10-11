@@ -270,11 +270,11 @@
                         <label class="form-label">
                             Request Title<span class="required">*</span>
                         </label>
-                        <input 
-                            type="text" 
-                            name="title" 
-                            id="title" 
-                            class="form-input @error('title') error @enderror" 
+                        <input
+                            type="text"
+                            name="title"
+                            id="title"
+                            class="form-input @error('title') error @enderror"
                             placeholder="e.g., Smart Lock Installation"
                             value="{{ old('title') }}"
                             required
@@ -289,9 +289,9 @@
                         <label class="form-label">
                             Description<span class="required">*</span>
                         </label>
-                        <textarea 
-                            name="description" 
-                            id="description" 
+                        <textarea
+                            name="description"
+                            id="description"
                             class="form-textarea @error('description') error @enderror"
                             placeholder="Provide detailed information about the problem..."
                         >{{ old('description') }}</textarea>
@@ -306,10 +306,10 @@
                             Upload Image
                             <small class="text-muted">(Optional, attach a picture of the issue if available)</small>
                         </label>
-                        <input 
-                            type="file" 
-                            name="image" 
-                            id="image" 
+                        <input
+                            type="file"
+                            name="image"
+                            id="image"
                             class="form-input @error('image') error @enderror"
                             accept="image/*"
                         >
@@ -323,11 +323,11 @@
                         <label class="form-label">
                             Service Address<span class="required">*</span>
                         </label>
-                        <input 
-                            type="text" 
-                            name="address" 
-                            id="address" 
-                            class="form-input @error('address') error @enderror" 
+                        <input
+                            type="text"
+                            name="address"
+                            id="address"
+                            class="form-input @error('address') error @enderror"
                             placeholder="Enter your address in detail and any distinguishing features, if applicable."
                             value="{{ old('address') }}"
                             required
@@ -347,6 +347,11 @@
                         <span class="location-status loading" id="locationBadge">Pending</span>
                     </div>
 
+                    <!-- 📌 Important Hint -->
+                    <small class="text-muted" style="display:block; margin-top:5px; color:#6c757d;">
+                        💡 Please make sure you are inside the apartment or at the location that needs repair.
+                    </small>
+                    
                     <!-- Hidden Location Fields -->
                     <input type="hidden" name="latitude" id="latitude" value="{{ old('latitude') }}">
                     <input type="hidden" name="longitude" id="longitude" value="{{ old('longitude') }}">
@@ -418,7 +423,7 @@
                     function(error) {
                         // Handle errors
                         let errorMessage = 'Unable to detect location';
-                        
+
                         switch(error.code) {
                             case error.PERMISSION_DENIED:
                                 errorMessage = 'Location access denied';

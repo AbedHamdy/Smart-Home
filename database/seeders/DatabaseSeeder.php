@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ClientSeeder::class,
             TechnicianSeeder::class,
             TechnicianApplicationsSeeder::class,
+            ServiceRequestSeeder::class,
         ]);
     }
 }

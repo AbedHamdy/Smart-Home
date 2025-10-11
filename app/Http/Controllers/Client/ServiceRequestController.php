@@ -14,9 +14,19 @@ class ServiceRequestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = Auth::user();
+        $query = ServiceRequest::where("client_id", $user->userable_id);
+        if ($request->has('status') && $request->status != '')
+        {
+            $query->where('status', $request->status);
+        }
+
+        // dd($user->userable_id);
+        // $serviceRequests = ServiceRequest::where("client_id" , $user->userable_id)->paginate();
+        $serviceRequests = $query->latest()->paginate();
+        return view("Client.ServiceRequest.index" , compact("user" , "serviceRequests"));
     }
 
     /**
@@ -38,7 +48,7 @@ class ServiceRequestController extends Controller
         $data = $request->validated();
         $user = Auth::user();
         // dd($data);
-        
+
         if ($request->hasFile('image'))
         {
             $file = $request->file('image');
@@ -83,9 +93,20 @@ class ServiceRequestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $user = Auth::user();
+        $order = ServiceRequest::with("category")
+            ->where("client_id", $user->userable_id)
+            ->where("id" , $id)
+            ->first();
+
+        if(!$order)
+        {
+            return redirect()->back()->with("error" , "Sorry, this request was not found or you are not authorized to access it.");
+        }
+
+        return view("Client.ServiceRequest.show" , compact("user" , "order"));
     }
 
     /**
@@ -107,8 +128,21 @@ class ServiceRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $user = Auth::user();
+        $order = ServiceRequest::with("category")
+            ->where("status" , "pending")
+            ->where("client_id", $user->userable_id)
+            ->where("id" , $id)
+            ->first();
+
+        if(!$order)
+        {
+            return redirect()->back()->with("error" , "Sorry, this request was not found or you are not authorized to access it.");
+        }
+
+        $order->delete();
+        return redirect()->route("client.service_request.index")->with("success" , "Service request deleted successfully.");
     }
 }
