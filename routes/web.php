@@ -98,7 +98,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 // Client
-Route::middleware(['auth', 'client'])->group(function () {
+Route::middleware(['auth', 'client',  'update.last.activity'])->group(function () {
     // Dashboard
     Route::get("/client/dashboard", [DashboardClientController::class, "index"])->name("client_dashboard");
 
@@ -114,5 +114,7 @@ Route::middleware(['auth', 'client'])->group(function () {
         ->name('client.service_request.destroy');
 
     // Profile
-    Route::get("/client/profile", [ProfileController::class, "index"])->name("client_profile");
+    Route::get("/client/profile", [ProfileController::class, "index"])->name("client_profile.index");
+    Route::put("/client/profile/update/information", [ProfileController::class, "update"])->name("client_profile.update");
+    Route::put("/client/profile/update/password", [ProfileController::class, "updatePassword"])->name("client_profile.updatePassword");
 });

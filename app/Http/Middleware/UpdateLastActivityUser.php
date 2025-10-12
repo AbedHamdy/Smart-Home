@@ -23,6 +23,7 @@ class UpdateLastActivityUser
             if ($user->userable_type === Client::class && $user->userable)
             {
                 $user->userable->update(['last_activity' => now()]);
+                // dd($user->userable);
             }
         }
 

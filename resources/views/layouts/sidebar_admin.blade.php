@@ -70,8 +70,8 @@
                 <span>Notifications</span>
             </a>
 
-            <a href="{{ route("client_profile") }}"
-                class="nav-item {{ request()->routeIs('client_profile') ? 'active' : '' }}">
+            <a href="{{ route("client_profile.index") }}"
+                class="nav-item {{ request()->routeIs('client_profile.*') ? 'active' : '' }}">
                 <span class="nav-icon">👤</span>
                 <span>Profile</span>
             </a>

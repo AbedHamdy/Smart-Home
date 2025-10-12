@@ -13,6 +13,7 @@ class Client extends Model
         "address",
         "latitude",
         "longitude",
+        "last_activity",
     ];
 
     public function user()
