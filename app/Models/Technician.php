@@ -18,6 +18,7 @@ class Technician extends Model
         "longitude",
         "cv_file",
         "verified",
+        "last_activity",
     ];
 
     public function user()
@@ -33,5 +34,10 @@ class Technician extends Model
     public function assignedRequests()
     {
         return $this->hasMany(ServiceRequest::class);
+    }
+
+    public function serviceRequests()
+    {
+        return $this->hasMany(ServiceRequest::class, 'technician_id');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\RegisterTechnicianRequest;
+use App\Mail\TechnicianVerificationMail;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\Technician;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\TechnicianApplicationSubmitted;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -44,8 +47,35 @@ class AuthController extends Controller
                     // dd($user);
                     return redirect()->route('client_dashboard')->with('success', 'Welcome Client!');
                 case 'technician':
-                    dd($user);
-                    return redirect()->route('technician.dashboard')->with('success', 'Welcome Technician!');
+                    $technician = $user->userable;
+                    if (!$technician->verified)
+                    {
+                        // Generate verification code
+                        $verificationCode = rand(100000, 999999);
+
+                        // Store code in session
+                        session([
+                            'verification_code' => $verificationCode,
+                            'technician_id' => $technician->id,
+                            'verification_attempts' => 0
+                        ]);
+
+                        // Send verification email
+                        try
+                        {
+                            Mail::to($user->email)->send(new TechnicianVerificationMail($user->name, $verificationCode));
+                            Log::info("Trying to send verification mail to: " . $user->email);
+                            // dd($user);
+
+                            return redirect()->route('technician.verification')->with('success', 'A verification code has been sent to your email.');
+                        }
+                        catch (\Exception $e)
+                        {
+                            return redirect()->route('technician.verification')->with('info', 'Please enter the verification code.'.$e->getMessage());
+                        }
+                    }
+
+                    return redirect()->route('technician_dashboard')->with('success', 'Welcome Technician!');
                 default:
                     Auth::logout();
                     return redirect()->route('login')->with('error', 'Your role is not recognized.');

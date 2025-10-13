@@ -9,6 +9,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Client\DashboardClientController;
 use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\ServiceRequestController;
+use App\Http\Controllers\Technician\DashboardTechnicianController;
+use App\Http\Controllers\Technician\RequestController;
+use App\Http\Controllers\Technician\TechnicianVerificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -117,4 +120,21 @@ Route::middleware(['auth', 'client',  'update.last.activity'])->group(function (
     Route::get("/client/profile", [ProfileController::class, "index"])->name("client_profile.index");
     Route::put("/client/profile/update/information", [ProfileController::class, "update"])->name("client_profile.update");
     Route::put("/client/profile/update/password", [ProfileController::class, "updatePassword"])->name("client_profile.updatePassword");
+});
+
+// Technician
+Route::middleware(['auth', 'technician',  'update.last.activity.technician'])->group(function () {
+    // Dashboard
+    Route::get("/technician/dashboard", [DashboardTechnicianController::class, "index"])->name("technician_dashboard");
+
+    // Request
+    Route::get("/technician/requests", [RequestController::class, "index"])->name("technician_requests.index");
+
+    // Location
+    Route::post('/technician/update-location', [TechnicianController::class, 'updateLocation'])->name('technician.update-location');
+
+    // Verification
+    Route::get('/technician/verification', [TechnicianVerificationController::class, 'show'])->name('technician.verification');
+    Route::post('/technician/verification', [TechnicianVerificationController::class, 'verify'])->name('technician.verification.verify');
+    Route::post('/technician/verification/resend', [TechnicianVerificationController::class, 'resend'])->name('technician.verification.resend');
 });

@@ -76,6 +76,29 @@
                 <span>Profile</span>
             </a>
         @endif
+        @if (auth()->check() && auth()->user()->role === 'technician')
+            <a href="{{ route('technician_dashboard') }}"
+                class="nav-item {{ request()->routeIs('technician_dashboard') ? 'active' : '' }}">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ route("technician_requests.index") }}"
+                class="nav-item {{ request()->routeIs('technician_requests.*') ? 'active' : '' }}">
+                <span class="nav-icon">🧾</span>
+                <span>Requests</span>
+            </a>
+            <!-- Ratings / Feedback -->
+            <a href=""
+                class="nav-item {{ request()->routeIs('technician_ratings.*') ? 'active' : '' }}">
+                <span class="nav-icon">⭐</span>
+                <span>Ratings</span>
+            </a>
+            <a href=""
+                class="nav-item {{ request()->routeIs('technician_profile.*') ? 'active' : '' }}">
+                <span class="nav-icon">👤</span>
+                <span>Profile</span>
+            </a>
+        @endif
 
     </nav>
 
