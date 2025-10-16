@@ -87,6 +87,11 @@
                 <span class="nav-icon">🧾</span>
                 <span>Requests</span>
             </a>
+            <a href="{{ route("technician_request.myRequests") }}"
+                class="nav-item {{ request()->routeIs('technician_request.myRequests') ? 'active' : '' }}">
+                <span class="nav-icon">📋</span>
+                <span>My Requests</span>
+            </a>
             <!-- Ratings / Feedback -->
             <a href=""
                 class="nav-item {{ request()->routeIs('technician_ratings.*') ? 'active' : '' }}">

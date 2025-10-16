@@ -257,12 +257,12 @@
 @section('scripts')
     <script>
         // Toggle Sidebar
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.querySelector('.sidebar');
+        // const menuToggle = document.getElementById('menuToggle');
+        // const sidebar = document.querySelector('.sidebar');
 
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-        });
+        // menuToggle.addEventListener('click', () => {
+        //     sidebar.classList.toggle('collapsed');
+        // });
 
         // File Upload Enhancement
         const fileInput = document.getElementById('cv');

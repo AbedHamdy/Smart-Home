@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class RejectedRequest extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "service_request_id",
+        "technician_id",
+    ];
 }

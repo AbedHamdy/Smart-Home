@@ -183,6 +183,25 @@
     </style>
 </head>
 <body>
+    <!-- ... نفس الـ HTML قبل كده ... -->
+
+{{-- <div class="error-details">
+    <div class="error-tip">
+        <div class="error-tip-title">
+            💡 Exception Details
+        </div>
+        <div class="error-tip-text">
+            @if(config('app.debug') && isset($exception))
+                <p><strong>Message:</strong> {{ $exception->getMessage() }}</p>
+                <p><strong>File:</strong> {{ $exception->getFile() }} (Line {{ $exception->getLine() }})</p>
+                <pre>{{ $exception->getTraceAsString() }}</pre>
+            @else
+                The page you're trying to access requires a different request method.
+            @endif
+        </div>
+    </div>
+</div> --}}
+
     <div class="error-container">
         <div class="error-icon">⚠️</div>
         <div class="error-code">{{ $code ?? '405' }}</div>

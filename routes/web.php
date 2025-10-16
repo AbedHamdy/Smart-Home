@@ -12,6 +12,7 @@ use App\Http\Controllers\Client\ServiceRequestController;
 use App\Http\Controllers\Technician\DashboardTechnicianController;
 use App\Http\Controllers\Technician\RequestController;
 use App\Http\Controllers\Technician\TechnicianVerificationController;
+use App\Http\Controllers\TechnicianLocationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -129,9 +130,25 @@ Route::middleware(['auth', 'technician',  'update.last.activity.technician'])->g
 
     // Request
     Route::get("/technician/requests", [RequestController::class, "index"])->name("technician_requests.index");
+    Route::get("/technician/my/requests", [RequestController::class, "myRequests"])->name("technician_request.myRequests");
+    Route::get("/technician/my/requests/{id}/show", [RequestController::class, "showOne"])
+        ->where('id', '[1-9][0-9]*')
+        ->name("technician_request.showOne");
+        Route::put('/technician/my/requests/{id}/update-status', [RequestController::class, 'updateStatus'])
+            ->where('id', '[1-9][0-9]*')
+            ->name('technician_request.update_status');
+    Route::get("/technician/requests/{id}/show", [RequestController::class, "show"])
+        ->where('id', '[1-9][0-9]*')
+        ->name("technician_requests.show");
+    Route::put('/requests/{id}/accept', [RequestController::class, 'accept'])
+        ->where('id', '[1-9][0-9]*')
+        ->name('technician_requests.accept');
+    Route::put('/requests/{id}/reject', [RequestController::class, 'reject'])
+        ->where('id', '[1-9][0-9]*')
+        ->name('technician_requests.reject');
 
     // Location
-    Route::post('/technician/update-location', [TechnicianController::class, 'updateLocation'])->name('technician.update-location');
+    Route::post('/technician/update-location', [TechnicianController::class, 'updateLocation'])->name('technician.updateLocation');
 
     // Verification
     Route::get('/technician/verification', [TechnicianVerificationController::class, 'show'])->name('technician.verification');

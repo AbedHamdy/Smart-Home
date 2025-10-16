@@ -137,14 +137,6 @@
             gap: 5px;
         }
 
-        .request-address {
-            font-size: 12px;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
         .client-info {
             display: flex;
             align-items: center;
@@ -182,11 +174,6 @@
             display: inline-block;
         }
 
-        .status-pending {
-            background: #FFF3E0;
-            color: #E65100;
-        }
-
         .status-assigned {
             background: #E3F2FD;
             color: #1565C0;
@@ -200,11 +187,6 @@
         .status-completed {
             background: #E8F5E9;
             color: #2E7D32;
-        }
-
-        .status-canceled {
-            background: #FFEBEE;
-            color: #C62828;
         }
 
         .action-btn {
@@ -289,7 +271,7 @@
             <header class="topbar">
                 <div class="topbar-left">
                     <button class="menu-toggle" id="menuToggle">☰</button>
-                    <h1 class="page-title">Service Requests</h1>
+                    <h1 class="page-title">My Service Requests</h1>
                 </div>
                 <div class="topbar-right">
                     <div class="search-box">
@@ -309,7 +291,30 @@
             <!-- Requests Container -->
             <div class="requests-container">
                 <div class="requests-header">
-                    <h2>🔧 Jobs Available Within 20 km Radius</h2>
+                    <h2>🔧 My Assigned Jobs</h2>
+                </div>
+
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <span class="filter-label">Filter by Status:</span>
+                    <div class="filter-buttons">
+                        <button class="filter-btn {{ !request('status') ? 'active' : '' }}"
+                                onclick="filterByStatus('')">
+                            📋 All
+                        </button>
+                        <button class="filter-btn {{ request('status') == 'assigned' ? 'active' : '' }}"
+                                onclick="filterByStatus('assigned')">
+                            👤 Assigned
+                        </button>
+                        <button class="filter-btn {{ request('status') == 'in_progress' ? 'active' : '' }}"
+                                onclick="filterByStatus('in_progress')">
+                            🔄 In Progress
+                        </button>
+                        <button class="filter-btn {{ request('status') == 'completed' ? 'active' : '' }}"
+                                onclick="filterByStatus('completed')">
+                            ✅ Completed
+                        </button>
+                    </div>
                 </div>
 
                 @if($serviceRequests->count() > 0)
@@ -320,7 +325,6 @@
                                 <th>Image</th>
                                 <th>Title & Category</th>
                                 <th>Client</th>
-                                {{-- <th>Address</th> --}}
                                 <th>Status</th>
                                 <th>Date</th>
                                 <th>Action</th>
@@ -355,17 +359,9 @@
                                             </div>
                                         </div>
                                     </td>
-                                    {{-- <td>
-                                        <div class="request-address">
-                                            📍 {{ Str::limit($request->address ?? 'No address', 30) }}
-                                        </div>
-                                    </td> --}}
                                     <td>
                                         <span class="status-badge status-{{ $request->status }}">
                                             @switch($request->status)
-                                                @case('pending')
-                                                    ⏳ Pending
-                                                    @break
                                                 @case('assigned')
                                                     👤 Assigned
                                                     @break
@@ -374,9 +370,6 @@
                                                     @break
                                                 @case('completed')
                                                     ✅ Completed
-                                                    @break
-                                                @case('canceled')
-                                                    ❌ Canceled
                                                     @break
                                             @endswitch
                                         </span>
@@ -388,7 +381,8 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="{{ route("technician_requests.show" , $request->id) }}"
+                                        {{-- {{ route('technician.my_requests.show', $request->id) }} --}}
+                                        <a href="{{ route('technician_request.showOne', $request->id) }}"
                                            class="action-btn">
                                             👁️ View
                                         </a>

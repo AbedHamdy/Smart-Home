@@ -287,12 +287,12 @@
 @section('scripts')
     <script>
         // Toggle Sidebar
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.querySelector('.sidebar');
+        // const menuToggle = document.getElementById('menuToggle');
+        // const sidebar = document.querySelector('.sidebar');
 
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-        });
+        // menuToggle.addEventListener('click', () => {
+        //     sidebar.classList.toggle('collapsed');
+        // });
 
         // Add active state to nav items
         document.querySelectorAll('.nav-item').forEach(item => {
@@ -300,6 +300,38 @@
                 document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
             });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+            } else {
+                console.log("المتصفح لا يدعم تحديد الموقع");
+            }
+
+            function successCallback(position) {
+                let latitude = position.coords.latitude;
+                let longitude = position.coords.longitude;
+
+                // أرسل الموقع للـ backend
+                fetch("{{ route('technician.updateLocation') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        latitude: latitude,
+                        longitude: longitude
+                    })
+                }).then(response => response.json())
+                .then(data => console.log("Location updated:", data))
+                .catch(error => console.error("Error updating location:", error));
+            }
+
+            function errorCallback(error) {
+                console.log("خطأ في تحديد الموقع:", error.message);
+            }
         });
     </script>
 @endsection

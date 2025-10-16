@@ -46,7 +46,8 @@ class Handler extends ExceptionHandler
             // For any other route with the same error
             return response()->view('errors.custom', [
                 'title' => 'Request Error',
-                'message' => 'The request method is not allowed for this route.'
+                'message' => 'The request method is not allowed for this route.',
+                'exception' => $exception,
             ], 405);
         }
 

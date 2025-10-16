@@ -94,7 +94,7 @@
                 <div class="chart-card">
                     <div class="card-header">
                         <h3 class="card-title">Device Categories</h3>
-                        <a href="#" class="view-all">View All →</a>
+                        <a href="{{ route("client.service_requests.create") }}" class="view-all">View All →</a>
                     </div>
                     <div class="categories-list">
                         <div class="category-item">
@@ -287,12 +287,12 @@
 @section('scripts')
     <script>
         // Toggle Sidebar
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.querySelector('.sidebar');
+        // const menuToggle = document.getElementById('menuToggle');
+        // const sidebar = document.querySelector('.sidebar');
 
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-        });
+        // menuToggle.addEventListener('click', () => {
+        //     sidebar.classList.toggle('collapsed');
+        // });
 
         // Add active state to nav items
         document.querySelectorAll('.nav-item').forEach(item => {

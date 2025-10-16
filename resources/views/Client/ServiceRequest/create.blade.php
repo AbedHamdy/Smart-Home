@@ -351,7 +351,7 @@
                     <small class="text-muted" style="display:block; margin-top:5px; color:#6c757d;">
                         💡 Please make sure you are inside the apartment or at the location that needs repair.
                     </small>
-                    
+
                     <!-- Hidden Location Fields -->
                     <input type="hidden" name="latitude" id="latitude" value="{{ old('latitude') }}">
                     <input type="hidden" name="longitude" id="longitude" value="{{ old('longitude') }}">
@@ -375,12 +375,12 @@
 @section('scripts')
     <script>
         // Toggle Sidebar
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.querySelector('.sidebar');
+        // const menuToggle = document.getElementById('menuToggle');
+        // const sidebar = document.querySelector('.sidebar');
 
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-        });
+        // menuToggle.addEventListener('click', () => {
+        //     sidebar.classList.toggle('collapsed');
+        // });
 
         // Add active state to nav items
         document.querySelectorAll('.nav-item').forEach(item => {

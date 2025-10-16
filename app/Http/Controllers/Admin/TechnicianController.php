@@ -71,7 +71,7 @@ class TechnicianController extends Controller
         {
             return redirect()->route("login")->with("error" , "You are not authorized to access this page.");
         }
-        
+
         $data = $request->validated();
         // dd($data);
         DB::beginTransaction();
@@ -165,6 +165,23 @@ class TechnicianController extends Controller
     public function update(Request $request, string $id)
     {
         //
+    }
+
+    public function updateLocation(Request $request)
+    {
+        $request->validate([
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+        ]);
+
+        $technician = auth()->user()->userable;
+
+        $technician->update([
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
+
+        return response()->json(['status' => 'success']);
     }
 
     /**

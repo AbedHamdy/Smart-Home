@@ -433,7 +433,7 @@
     </div>
 @endsection
 
-@section('scripts')
+{{-- @section('scripts')
     <script>
         // Toggle Sidebar
         const menuToggle = document.getElementById('menuToggle');
@@ -443,4 +443,4 @@
             sidebar.classList.toggle('collapsed');
         });
     </script>
-@endsection
+@endsection --}}
