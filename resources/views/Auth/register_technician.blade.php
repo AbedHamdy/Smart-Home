@@ -5,6 +5,54 @@
     <link rel="stylesheet" href="{{ asset('css/technician.css') }}">
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
     <style>
+        .bg-icon i {
+            font-size: 24px;
+            color: rgba(59, 130, 246, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.2) 100%);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .header-icon:hover::after {
+            transform: translateY(0);
+        }
+
+        .header-icon i {
+            font-size: 36px;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .header-icon:hover i {
+            transform: scale(1.1);
+        }
+
         .input-group {
             margin-bottom: 20px;
         }
@@ -62,17 +110,63 @@
             color: #777;
             margin-top: 5px;
         }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #3b82f6;
+            transition: transform 0.3s ease;
+        }
+
+        .input-wrapper:focus-within .input-icon {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #fff;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            padding: 15px;
+        }
+
+        .required {
+            color: #e11d48;
+            margin-left: 2px;
+        }
     </style>
 @endsection
 
 @section('content')
 
-    <div class="bg-icon icon-1">🏠</div>
-    <div class="bg-icon icon-2">💡</div>
-    <div class="bg-icon icon-3">🔧</div>
-    <div class="bg-icon icon-4">📱</div>
-    <div class="bg-icon icon-5">🌡️</div>
-    <div class="bg-icon icon-6">🔒</div>
+    <div class="bg-icon icon-1"><i class="fas fa-tools"></i></div>
+    <div class="bg-icon icon-2"><i class="fas fa-lightbulb"></i></div>
+    <div class="bg-icon icon-3"><i class="fas fa-wrench"></i></div>
+    <div class="bg-icon icon-4"><i class="fas fa-mobile-alt"></i></div>
+    <div class="bg-icon icon-5"><i class="fas fa-user-cog"></i></div>
+    <div class="bg-icon icon-6"><i class="fas fa-shield-alt"></i></div>
 
     <div class="registration-container">
         {{-- Message --}}
@@ -97,7 +191,9 @@
         @endif
 
         <div class="header">
-            <div class="header-icon">🔧</div>
+            <div class="header-icon">
+                <i class="fas fa-user-cog fa-2x"></i>
+            </div>
             <h1>Technician Application</h1>
             <p class="subtitle">Fill in your details to join our team</p>
         </div>
@@ -112,7 +208,7 @@
                     <div class="input-wrapper">
                         <input type="text" name="name" id="name" placeholder="Enter your full name"
                             value="{{ old('name') }}" required>
-                        <span class="input-icon">👤</span>
+                        <span class="input-icon"><i class="fas fa-user"></i></span>
                     </div>
                 </div>
 
@@ -121,7 +217,7 @@
                     <div class="input-wrapper">
                         <input type="email" name="email" id="email" placeholder="your@email.com"
                             value="{{ old('email') }}" required>
-                        <span class="input-icon">✉️</span>
+                        <span class="input-icon"><i class="fas fa-envelope"></i></span>
                     </div>
                 </div>
             </div>
@@ -132,7 +228,7 @@
                     <div class="input-wrapper">
                         <input type="tel" name="phone" id="phone" placeholder="+20 123 456 7890"
                             value="{{ old('phone') }}" required>
-                        <span class="input-icon">📱</span>
+                        <span class="input-icon"><i class="fas fa-phone"></i></span>
                     </div>
                 </div>
                 <div class="input-group">
@@ -140,7 +236,7 @@
                     <div class="input-wrapper">
                         <input type="number" name="experience_years" id="experience_years"
                             placeholder="Enter your years of experience" value="{{ old('experience_years') }}" required>
-                        <span class="input-icon">💼</span>
+                        <span class="input-icon"><i class="fas fa-briefcase"></i></span>
                     </div>
                 </div>
             </div>
@@ -176,13 +272,16 @@
                 <label for="cv_file">Upload CV / Certificate <span class="required">*</span></label>
                 <div class="input-wrapper file-input-wrapper">
                     <label for="cv_file" class="file-input-label">
-                        <span class="input-icon">📎</span>
+                        <span class="input-icon"><i class="fas fa-file-upload"></i></span>
                         <span class="file-text">Choose file (PDF, DOC, DOCX)</span>
                     </label>
                     <input type="file" name="cv_file" id="cv_file" accept=".pdf,.doc,.docx">
                     <div id="fileName" class="file-name" style="display: none;"></div>
                 </div>
-                <p class="info-text">Max file size: 5MB</p>
+                <p class="info-text">
+                    <i class="fas fa-info-circle"></i>
+                    Max file size: 5MB
+                </p>
             </div>
 
 

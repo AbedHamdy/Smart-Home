@@ -36,7 +36,7 @@ class TechnicianApplicationsSeeder extends Seeder
                 'experience' => rand(1, 10),
                 'cv_file' => 'cvs/1760104246_66909.docx',
                 'status' => 'pending',
-                'notes' => 'Looking forward to joining Smart Home team.',
+                'notes' => 'Looking forward to joining Khedmaty team.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

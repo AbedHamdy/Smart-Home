@@ -19,7 +19,7 @@
                                 🎉 Account Approved!
                             </h1>
                             <p style="margin: 10px 0 0 0; color: rgba(255, 255, 255, 0.9); font-size: 16px;">
-                                Welcome to Smart Home Team
+                                Welcome to Khedmaty Team
                             </p>
                         </td>
                     </tr>
@@ -127,7 +127,7 @@
                                 Best regards,
                             </p>
                             <p style="margin: 0 0 20px 0; color: #667eea; font-size: 18px; font-weight: 700;">
-                                Smart Home Team
+                                Khedmaty Team
                             </p>
 
                             <!-- Social Links -->
@@ -152,7 +152,7 @@
                             </table>
 
                             <p style="margin: 0; color: #9ca3af; font-size: 12px; line-height: 1.5;">
-                                © 2025 Smart Home. All rights reserved.<br>
+                                © 2025 Khedmaty. All rights reserved.<br>
                                 This is an automated message, please do not reply to this email.
                             </p>
                         </td>

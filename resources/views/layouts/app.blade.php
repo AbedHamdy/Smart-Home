@@ -4,12 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Home - @yield('title')</title>
+    <title>Khedmaty - @yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     {{-- Common CSS --}}
     {{--
     <link rel="stylesheet" href="{{ asset('css/common.css') }}"> --}}
+
+    <style>
+        .nav-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-icon i {
+            font-size: 1.1rem;
+            color: #000000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover .nav-icon i,
+        .nav-item.active .nav-icon i {
+            color: #c7c7c7;
+            transform: scale(1.1);
+        }
+
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(59, 130, 246, 0.1);
+            margin-right: 12px;
+        }
+
+        .logo-icon i {
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header:hover .logo-icon i {
+            transform: rotate(0deg) scale(1.1) !important;
+        }
+    </style>
 
     {{-- Page specific CSS --}}
     @yield('styles')
@@ -31,7 +74,7 @@
     {{-- Page specific JavaScript --}}
     @yield('scripts')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+    <script nonce="{{ csrf_token() }}">
     document.addEventListener('DOMContentLoaded', function () {
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.querySelector('.sidebar');

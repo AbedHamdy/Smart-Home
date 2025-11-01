@@ -24,7 +24,7 @@ To complete your registration and activate your account, please use the verifica
 Enter Verification Code
 </x-mail::button>
 
-Need help? Contact our support team at support@smarthome.com
+Need help? Contact our support team at support@khedmaty.com
 
 Thanks,<br>
 **{{ config('app.name') }} Team** 🏠

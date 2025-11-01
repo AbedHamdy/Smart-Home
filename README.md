@@ -1,13 +1,9 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Smart Home Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
+Smart Home is a comprehensive home automation and management system built with Laravel. The system allows homeowners to manage their smart devices, schedule maintenance, and connect with qualified technicians for repairs and installations.
 
-## About Laravel
+## Features
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
@@ -19,48 +15,146 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 - [Robust background job processing](https://laravel.com/docs/queues).
 - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **User Authentication**
+  - Separate portals for homeowners and technicians
+  - Secure login and registration system
+  - Password recovery functionality
 
-## Learning Laravel
+- **Device Management**
+  - Add and manage smart home devices
+  - Monitor device status and health
+  - View device history and usage statistics
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Technician Services**
+  - Browse qualified technicians by category
+  - Schedule maintenance appointments
+  - Real-time technician tracking
+  - Rate and review service quality
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Smart Home Automation**
+  - Device scheduling and automation
+  - Energy usage monitoring
+  - Custom automation rules
+  - Remote device control
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Technology Stack
+- **Backend**: Laravel 10.x
+- **Frontend**: Blade Templates, TailwindCSS
+- **Database**: MySQL
+- **Authentication**: Laravel Sanctum
+- **Real-time Features**: Laravel WebSockets
+- **Payment Processing**: Stripe Integration
 
-## Laravel Sponsors
+## Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Prerequisites
+- PHP >= 8.1
+- Composer
+- Node.js & NPM
+- MySQL
 
-### Premium Partners
+### Setup Instructions
+1. Clone the repository
+```bash
+git clone https://github.com/AbedHamdy/Smart-Home.git
+cd Smart-Home
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. Install PHP dependencies
+```bash
+composer install
+```
+
+3. Install JavaScript dependencies
+```bash
+npm install
+```
+
+4. Create environment file
+```bash
+cp .env.example .env
+```
+
+5. Generate application key
+```bash
+php artisan key:generate
+```
+
+6. Configure database settings in `.env` file
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database_name
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+7. Run database migrations and seeders
+```bash
+php artisan migrate --seed
+```
+
+8. Build frontend assets
+```bash
+npm run build
+```
+
+9. Start the development server
+```bash
+php artisan serve
+```
+
+## Project Structure
+```
+smart-home/
+├── app/                    # Application core code
+│   ├── Http/              # Controllers and Middleware
+│   ├── Models/            # Eloquent models
+│   └── Services/          # Business logic services
+├── database/              # Database migrations and seeders
+├── resources/             # Frontend assets and views
+│   ├── css/              # Stylesheets
+│   ├── js/               # JavaScript files
+│   └── views/            # Blade templates
+├── routes/                # Application routes
+└── tests/                # Test files
+```
+
+## API Documentation
+The system provides a RESTful API for device integration and third-party services. Documentation can be found in the `docs/api` directory.
+
+### Available Endpoints
+- `/api/devices` - Device management
+- `/api/technicians` - Technician services
+- `/api/appointments` - Appointment scheduling
+- `/api/users` - User management
+
+## Security
+- All user passwords are hashed using bcrypt
+- CSRF protection enabled for all forms
+- API authentication using Laravel Sanctum
+- Input validation and sanitization
+- XSS protection
+
+## Testing
+Run the test suite using:
+```bash
+php artisan test
+```
 
 ## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Support
+For support, please email support@smarthome.com or open an issue in the GitHub repository.
+
+## Authors
+- Abed Hamdy - Initial work and maintenance

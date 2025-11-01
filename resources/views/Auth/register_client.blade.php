@@ -5,8 +5,65 @@
     <link rel="stylesheet" href="{{ asset('css/technician.css') }}">
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
     <style>
+        .bg-icon i {
+            font-size: 24px;
+            color: rgba(59, 130, 246, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.2) 100%);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .header-icon:hover::after {
+            transform: translateY(0);
+        }
+
+        .header-icon i {
+            font-size: 36px;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .header-icon:hover i {
+            transform: scale(1.1);
+        }
+
         .input-group {
             margin-bottom: 20px;
+        }
+
+        .input-icon {
+            color: #3b82f6;
+            transition: transform 0.3s ease;
+        }
+
+        .input-wrapper:focus-within .input-icon {
+            transform: scale(1.1);
         }
 
         .input-group label {
@@ -52,12 +109,12 @@
 
 @section('content')
 
-    <div class="bg-icon icon-1">🏠</div>
-    <div class="bg-icon icon-2">💡</div>
-    <div class="bg-icon icon-3">🔧</div>
-    <div class="bg-icon icon-4">📱</div>
-    <div class="bg-icon icon-5">🌡️</div>
-    <div class="bg-icon icon-6">🔒</div>
+    <div class="bg-icon icon-1"><i class="fas fa-home"></i></div>
+    <div class="bg-icon icon-2"><i class="fas fa-lightbulb"></i></div>
+    <div class="bg-icon icon-3"><i class="fas fa-tools"></i></div>
+    <div class="bg-icon icon-4"><i class="fas fa-mobile-alt"></i></div>
+    <div class="bg-icon icon-5"><i class="fas fa-user"></i></div>
+    <div class="bg-icon icon-6"><i class="fas fa-shield-alt"></i></div>
 
     <div class="registration-container">
         {{-- Message --}}
@@ -82,7 +139,9 @@
         @endif
 
         <div class="header">
-            <div class="header-icon">🏠</div>
+            <div class="header-icon">
+                <i class="fas fa-user-plus fa-2x"></i>
+            </div>
             <h1>Client Registration</h1>
             <p class="subtitle">Create your account to get started</p>
         </div>
@@ -97,7 +156,9 @@
                     <div class="input-wrapper">
                         <input type="text" name="name" id="name" placeholder="Enter your full name"
                             value="{{ old('name') }}" required>
-                        <span class="input-icon">👤</span>
+                        <span class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </span>
                     </div>
                 </div>
 
@@ -106,7 +167,9 @@
                     <div class="input-wrapper">
                         <input type="email" name="email" id="email" placeholder="your@email.com"
                             value="{{ old('email') }}" required>
-                        <span class="input-icon">✉️</span>
+                        <span class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -117,7 +180,9 @@
                     <div class="input-wrapper">
                         <input type="tel" name="phone" id="phone" placeholder="+20 123 456 7890"
                             value="{{ old('phone') }}" required>
-                        <span class="input-icon">📱</span>
+                        <span class="input-icon">
+                            <i class="fas fa-phone"></i>
+                        </span>
                     </div>
                 </div>
 
@@ -126,7 +191,9 @@
                     <div class="input-wrapper">
                         <input type="password" name="password" id="password" placeholder="Enter password" required
                             minlength="8">
-                        <span class="input-icon">🔒</span>
+                        <span class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </span>
                     </div>
                 </div>
             </div>

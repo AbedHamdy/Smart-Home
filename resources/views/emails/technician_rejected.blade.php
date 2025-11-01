@@ -34,7 +34,7 @@
 
                             <!-- Main Message -->
                             <p style="margin: 0 0 25px 0; color: #4b5563; font-size: 16px; line-height: 1.7;">
-                                Thank you for taking the time to apply to become a technician with Smart Home. We appreciate your interest in joining our professional network.
+                                Thank you for taking the time to apply to become a technician with Khedmaty. We appreciate your interest in joining our professional network.
                             </p>
 
                             <!-- Status Notice -->
@@ -96,10 +96,10 @@
                             <!-- Support Section -->
                             <div style="border-top: 2px solid #e5e7eb; padding-top: 25px; margin-top: 10px;">
                                 <p style="margin: 0 0 15px 0; color: #4b5563; font-size: 15px; line-height: 1.6;">
-                                    We appreciate your understanding and thank you for your interest in Smart Home. If you have any questions about this decision or would like guidance on improving your application, please feel free to contact us.
+                                    We appreciate your understanding and thank you for your interest in Khedmaty. If you have any questions about this decision or would like guidance on improving your application, please feel free to contact us.
                                 </p>
                                 <p style="margin: 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                                    <strong>Contact Support:</strong> <a href="mailto:support@smarthome.com" style="color: #667eea; text-decoration: none;">support@smarthome.com</a>
+                                    <strong>Contact Support:</strong> <a href="mailto:support@khedmaty.com" style="color: #667eea; text-decoration: none;">support@khedmaty.com</a>
                                 </p>
                             </div>
                         </td>
@@ -112,7 +112,7 @@
                                 Best regards,
                             </p>
                             <p style="margin: 0 0 20px 0; color: #667eea; font-size: 18px; font-weight: 700;">
-                                Smart Home Team
+                                Khedmaty Team
                             </p>
 
                             <!-- Social Links -->
@@ -144,7 +144,7 @@
                             </div>
 
                             <p style="margin: 0; color: #9ca3af; font-size: 12px; line-height: 1.5;">
-                                © 2025 Smart Home. All rights reserved.<br>
+                                © 2025 Khedmaty. All rights reserved.<br>
                                 This is an automated message, please do not reply to this email.
                             </p>
                         </td>

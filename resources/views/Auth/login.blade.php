@@ -4,8 +4,66 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
     <style>
+        .bg-icon i {
+            font-size: 24px;
+            color: rgba(59, 130, 246, 0.5);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.2) 100%);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-icon:hover::after {
+            transform: translateY(0);
+        }
+
+        .logo-icon i {
+            font-size: 36px;
+            color: white;
+            transform: rotate(-45deg);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-icon:hover i {
+            transform: rotate(0);
+        }
+
         .input-group {
             margin-bottom: 20px;
+        }
+
+        .input-icon {
+            color: #3b82f6;
+            transition: transform 0.3s ease;
+        }
+
+        .input-wrapper:focus-within .input-icon {
+            transform: scale(1.1);
         }
 
         .input-group label {
@@ -22,12 +80,12 @@
 
         .input-wrapper input {
             width: 100%;
-            padding: 10px 40px 10px 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            padding: 12px 40px 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
             font-size: 15px;
             outline: none;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            transition: all 0.3s ease;
         }
 
         .input-wrapper input:focus {
@@ -69,12 +127,12 @@
 
 @section('content')
 
-    <div class="bg-icon icon-1">🏠</div>
-    <div class="bg-icon icon-2">💡</div>
-    <div class="bg-icon icon-3">🔧</div>
-    <div class="bg-icon icon-4">📱</div>
-    <div class="bg-icon icon-5">🌡️</div>
-    <div class="bg-icon icon-6">🔒</div>
+    <div class="bg-icon icon-1"><i class="fas fa-tools"></i></div>
+    <div class="bg-icon icon-2"><i class="fas fa-lightbulb"></i></div>
+    <div class="bg-icon icon-3"><i class="fas fa-wrench"></i></div>
+    <div class="bg-icon icon-4"><i class="fas fa-mobile-alt"></i></div>
+    <div class="bg-icon icon-5"><i class="fas fa-user-cog"></i></div>
+    <div class="bg-icon icon-6"><i class="fas fa-shield-alt"></i></div>
 
     <div class="login-container">
         {{-- Message --}}
@@ -100,8 +158,10 @@
         @endif
 
         <div class="logo">
-            <div class="logo-icon">🏠</div>
-            <h2>Smart Home</h2>
+            <div class="logo-icon">
+                <i class="fas fa-tools fa-2x" style="transform: rotate(-45deg);"></i>
+            </div>
+            <h2>Khedmaty</h2>
             <p class="subtitle">Maintenance Management System</p>
         </div>
 
@@ -111,7 +171,9 @@
                 <label for="email">Email Address <span class="required">*</span></label>
                 <div class="input-wrapper">
                     <input type="email" name="email" id="email" placeholder="Enter your email" required>
-                    <span class="input-icon"></span>
+                    {{-- <span class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                    </span> --}}
                 </div>
             </div>
 
@@ -119,7 +181,9 @@
                 <label for="password">Password <span class="required">*</span></label>
                 <div class="input-wrapper">
                     <input type="password" name="password" id="password" placeholder="Enter your password" required>
-                    <span class="input-icon"></span>
+                    {{-- <span class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </span> --}}
                 </div>
                 <div class="forgot-password-wrapper">
                     <a href="#" class="forgot-password">Forgot Password?</a>
@@ -137,7 +201,7 @@
         <div class="tech-register">
             <p class="tech-register-text">Are you a technician?</p>
             <a href="{{ route('register_technician') }}" class="tech-register-btn">
-                <span>🔧</span>
+                <span><i class="fas fa-user-cog"></i></span>
                 <span>Register as Technician</span>
             </a>
         </div>
