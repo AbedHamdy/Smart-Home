@@ -1,7 +1,13 @@
-# Smart Home Management System
+# Khedmaty — Smart Home Management System
+
+Copyright (c) 2025 AbedHamdy
+
+All rights reserved.
+
+This project and its contents (code, documentation, assets) are proprietary and may not be copied, modified, redistributed, or published in any form without the prior written permission of the copyright holder.
 
 ## Overview
-Smart Home is a comprehensive home automation and management system built with Laravel. The system allows homeowners to manage their smart devices, schedule maintenance, and connect with qualified technicians for repairs and installations.
+Khedmaty (Smart Home) is a comprehensive home automation and management system built with Laravel. The system allows homeowners to manage their smart devices, schedule maintenance, and connect with qualified technicians for repairs and installations.
 
 ## Features
 
@@ -107,7 +113,7 @@ php artisan serve
 
 ## Project Structure
 ```
-smart-home/
+Khedmaty/
 ├── app/                    # Application core code
 │   ├── Http/              # Controllers and Middleware
 │   ├── Models/            # Eloquent models
@@ -151,10 +157,16 @@ php artisan test
 5. Open a Pull Request
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Copyright (c) 2025 AbedHamdy
+
+All rights reserved.
+
+This project and its contents (code, documentation, assets) are proprietary and may not be copied, modified, redistributed, or published in any form without the prior written permission of the copyright holder.
+
+This repository is for viewing only. Copying, modifying, or redistributing the content is not permitted without written permission.
 
 ## Support
-For support, please email support@smarthome.com or open an issue in the GitHub repository.
+For support, please email abdooooohamdy@gmail.com or open an issue in the GitHub repository.
 
 ## Authors
 - Abed Hamdy - Initial work and maintenance
