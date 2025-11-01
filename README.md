@@ -1,4 +1,4 @@
-# Khedmaty — Smart Home Management System
+# Khedmaty — Maintenance System
 
 Copyright (c) 2025 AbedHamdy
 
@@ -62,7 +62,7 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 ### Setup Instructions
 1. Clone the repository
 ```bash
-git clone https://github.com/AbedHamdy/Smart-Home.git
+git clone https://github.com/AbedHamdy/Khedmaty.git
 cd Smart-Home
 ```
 
