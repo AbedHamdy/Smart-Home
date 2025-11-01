@@ -3,6 +3,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .profile-section {
             padding: 40px 20px;
@@ -722,5 +723,19 @@
                 closePasswordModal();
             }
         });
-    </script>
+        
+                function markAsRead(notificationId) {
+                    fetch(`/notifications/${notificationId}/mark-as-read`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json'
+                        },
+                    }).then(() => {
+                        // إعادة تحميل الصفحة لتحديث العداد
+                        location.reload();
+                    });
+                }
+                </script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

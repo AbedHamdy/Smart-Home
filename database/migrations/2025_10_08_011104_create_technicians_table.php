@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId("category_id")->constrained("categories")->onDelete("cascade");
             $table->integer('experience_years')->default(0);
-            $table->enum('availability_status', ['available', 'busy', 'offline'])->default('available');
+            $table->enum('availability_status', ["online" , 'available', 'busy', 'offline'])->default('available');
             $table->float('rating')->default(0);
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();

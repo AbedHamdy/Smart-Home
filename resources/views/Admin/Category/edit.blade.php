@@ -14,9 +14,7 @@
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            /* margin: 20px; */
             transition: all 0.3s ease;
-            /* width: calc(100% - 40px); Account for margins */
         }
 
         .form-group {
@@ -38,42 +36,72 @@
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .form-group textarea {
             min-height: 100px;
         }
 
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-size: 16px;
+            pointer-events: none;
+        }
+
+        .input-with-icon input {
+            padding-left: 38px;
+        }
+
         .btn-submit {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px 24px;
+            padding: 12px 32px;
             border: none;
             border-radius: 6px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .btn-submit:hover {
-            background: #5a6fe4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         .btn-cancel {
-            background: #dc3545;
+            background: #6c757d;
             color: white;
-            padding: 12px 24px;
+            padding: 12px 32px;
             border: none;
             border-radius: 6px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
             text-decoration: none;
-            margin-right: 10px;
+            display: inline-block;
         }
 
         .btn-cancel:hover {
-            background: #c82333;
+            background: #5a6268;
+            transform: translateY(-2px);
             text-decoration: none;
             color: white;
         }
@@ -81,49 +109,15 @@
         .form-actions {
             margin-top: 30px;
             display: flex;
-            gap: 10px;
-        }
-
-        .file-upload-wrapper {
-            position: relative;
-            width: 100%;
-            height: 120px;
-            border: 2px dashed #ddd;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
+            gap: 15px;
             justify-content: center;
-            overflow: hidden;
-            background: #f8f9fa;
-            transition: border-color 0.3s ease;
         }
 
-        .file-upload-wrapper:hover {
-            border-color: #667eea;
-        }
-
-        .file-upload-input {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-            z-index: 2;
-        }
-
-        .file-upload-text {
-            text-align: center;
-            color: #6c757d;
-        }
-
-        .upload-icon {
-            font-size: 24px;
+        .text-danger {
+            color: #e53e3e;
+            font-size: 13px;
+            margin-top: 5px;
             display: block;
-            margin-bottom: 8px;
-        }
-
-        .upload-text {
-            font-size: 14px;
         }
 
         .text-muted {
@@ -133,10 +127,126 @@
             display: block;
         }
 
+        .required {
+            color: #e53e3e;
+            margin-left: 3px;
+        }
+
+        /* Grid Layout for Form */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .form-grid-full {
+            grid-column: 1 / -1;
+        }
+
+        /* Price Input Styling */
+        .price-input-wrapper {
+            position: relative;
+        }
+
+        .currency-prefix {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-weight: 600;
+            font-size: 16px;
+            pointer-events: none;
+        }
+
+        .price-input-wrapper input {
+            padding-left: 32px;
+            padding-right: 50px;
+        }
+
+        .price-suffix {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-size: 13px;
+            font-weight: 500;
+            pointer-events: none;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+        }
+
+        .info-box-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .info-box-content {
+            flex: 1;
+        }
+
+        .info-box-title {
+            color: #856404;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .info-box-text {
+            color: #856404;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Category Info Card */
+        .category-info-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .category-details h3 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .category-details p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 13px;
+        }
+
         /* Make form more responsive */
         @media (max-width: 768px) {
             .form-section {
-                margin: 10px;
                 padding: 20px;
             }
 
@@ -144,13 +254,26 @@
                 margin-bottom: 15px;
             }
 
-            .file-upload-wrapper {
-                height: 100px;
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-submit,
+            .btn-cancel {
+                width: 100%;
+            }
+
+            .category-info-card {
+                flex-direction: column;
+                text-align: center;
             }
         }
     </style>
 @endsection
-
 
 @section('content')
     <div class="dashboard-wrapper">
@@ -162,37 +285,121 @@
                     <button class="menu-toggle" id="menuToggle">☰</button>
                     <h1 class="page-title">Edit Category</h1>
                 </div>
+                <div class="topbar-right">
+                    {{-- <div class="search-box">
+                        <input type="text" placeholder="Search...">
+                        <span class="search-icon">🔍</span>
+                    </div> --}}
+                    @include('layouts.notification')
+                    <div class="user-menu">
+                        <img src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}&background=2563eb&color=fff" alt="Admin">
+                        <span class="user-name">{{ auth()->user()->name }}</span>
+                    </div>
+                </div>
             </header>
 
             @include('layouts.message_admin')
 
             <div class="form-section">
-                <form action="{{ route('category.update', $category->id) }}" method="POST">
+                <!-- Category Info Card -->
+                <div class="category-info-card">
+                    <div class="category-icon">📂</div>
+                    <div class="category-details">
+                        <h3>{{ $category->name }}</h3>
+                        <p>Editing category information and pricing</p>
+                    </div>
+                </div>
+
+                <!-- Info Box -->
+                <div class="info-box">
+                    <span class="info-box-icon">💡</span>
+                    <div class="info-box-content">
+                        <div class="info-box-title">Update Category Information</div>
+                        <div class="info-box-text">
+                            Modify the category name, or base price. Changes will affect all services under this category.
+                        </div>
+                    </div>
+                </div>
+
+                <form action="{{ route('category.update', $category->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
-                    <div class="form-group">
-                        <label for="name">
-                            Category Name
-                            <span style="color: #e53e3e">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value="{{ old('name', $category->name) }}"
-                            required
-                            placeholder="Enter category name"
-                            autocomplete="off"
-                        >
-                        @error('name')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                    <div class="form-grid">
+                        <!-- Category Name -->
+                        <div class="form-group">
+                            <label for="name">
+                                Category Name
+                                <span class="required">*</span>
+                            </label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">📂</span>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    value="{{ old('name', $category->name) }}"
+                                    placeholder="e.g., Plumbing, Electrical, AC Repair"
+                                    required
+                                    autocomplete="off"
+                                >
+                            </div>
+                            @error('name')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            <span class="text-muted">Enter a clear and descriptive category name</span>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="form-group">
+                            <label for="price">
+                                Base Price
+                                <span class="required">*</span>
+                            </label>
+                            <div class="price-input-wrapper">
+                                <span class="currency-prefix">$</span>
+                                <input
+                                    type="number"
+                                    id="price"
+                                    name="price"
+                                    value="{{ old('price', $category->price ?? 0) }}"
+                                    placeholder="0.00"
+                                    step="0.01"
+                                    min="0"
+                                    required
+                                >
+                                <span class="price-suffix">EG</span>
+                            </div>
+                            @error('price')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            <span class="text-muted">Set the starting price for this service category</span>
+                        </div>
+
+                        <!-- Description (Optional - Full Width) -->
+                        {{-- <div class="form-group form-grid-full">
+                            <label for="description">
+                                Description
+                                <span style="color: #6c757d; font-weight: 400;">(Optional)</span>
+                            </label>
+                            <textarea
+                                id="description"
+                                name="description"
+                                placeholder="Describe what services are included in this category..."
+                            >{{ old('description', $category->description ?? '') }}</textarea>
+                            @error('description')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            <span class="text-muted">Provide additional details about this category (optional)</span>
+                        </div> --}}
                     </div>
 
-                    <div class="form-actions" style="display: flex; justify-content: center; margin-top: 20px;">
+                    <div class="form-actions">
+                        <a href="{{ route('category.index') }}" class="btn-cancel">
+                            ← Cancel
+                        </a>
                         <button type="submit" class="btn-submit">
-                            <span style="margin-right: 4px;">✓</span> Update Category
+                            ✓ Update Category
                         </button>
                     </div>
                 </form>
@@ -201,13 +408,47 @@
     </div>
 @endsection
 
-{{-- @section('scripts')
+@section('scripts')
     <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.querySelector('.sidebar');
+        // Format price input on blur
+        document.getElementById('price').addEventListener('blur', function(e) {
+            let value = parseFloat(e.target.value);
+            if (!isNaN(value)) {
+                e.target.value = value.toFixed(2);
+            }
+        });
 
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
+        // Prevent negative values
+        document.getElementById('price').addEventListener('input', function(e) {
+            if (parseFloat(e.target.value) < 0) {
+                e.target.value = 0;
+            }
+        });
+
+        // Form validation before submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value.trim();
+            const price = parseFloat(document.getElementById('price').value);
+
+            if (name === '') {
+                e.preventDefault();
+                alert('⚠️ Please enter a category name');
+                document.getElementById('name').focus();
+                return false;
+            }
+
+            if (isNaN(price) || price < 0) {
+                e.preventDefault();
+                alert('⚠️ Please enter a valid price (minimum $0.00)');
+                document.getElementById('price').focus();
+                return false;
+            }
+
+            // Confirm before updating
+            if (!confirm('Are you sure you want to update this category?')) {
+                e.preventDefault();
+                return false;
+            }
         });
     </script>
-@endsection --}}
+@endsection

@@ -3,6 +3,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .form-container {
             background: white;
@@ -212,13 +213,14 @@
                     <h1 class="page-title">New Service Request</h1>
                 </div>
                 <div class="topbar-right">
-                    <div class="search-box">
+                    {{-- <div class="search-box">
                         <input type="text" placeholder="Search...">
                         <span class="search-icon">🔍</span>
-                    </div>
+                    </div> --}}
                     @include('layouts.notification')
                     <div class="user-menu">
-                        <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=2563eb&color=fff" alt="Client">
+                        <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=2563eb&color=fff"
+                            alt="Client">
                         <span class="user-name">{{ $user->name }}</span>
                     </div>
                 </div>
@@ -233,18 +235,19 @@
 
                 @include('layouts.message_admin')
                 {{-- @if(session('success'))
-                    <div class="form-message success">
-                        ✓ {{ session('success') }}
-                    </div>
+                <div class="form-message success">
+                    ✓ {{ session('success') }}
+                </div>
                 @endif
 
                 @if(session('error'))
-                    <div class="form-message error">
-                        ✗ {{ session('error') }}
-                    </div>
+                <div class="form-message error">
+                    ✗ {{ session('error') }}
+                </div>
                 @endif --}}
 
-                <form action="{{ route("client.service_request.store") }}" method="POST" id="serviceRequestForm" enctype="multipart/form-data">
+                <form action="{{ route("client.service_request.store") }}" method="POST" id="serviceRequestForm"
+                    enctype="multipart/form-data">
                     @csrf
 
                     <!-- Category -->
@@ -256,7 +259,7 @@
                             <option value="">Select a category...</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
+                                    {{ $category->name }} — Preview : {{ number_format($category->price, 2) }} pound
                                 </option>
                             @endforeach
                         </select>
@@ -270,15 +273,8 @@
                         <label class="form-label">
                             Request Title<span class="required">*</span>
                         </label>
-                        <input
-                            type="text"
-                            name="title"
-                            id="title"
-                            class="form-input @error('title') error @enderror"
-                            placeholder="e.g., Smart Lock Installation"
-                            value="{{ old('title') }}"
-                            required
-                        >
+                        <input type="text" name="title" id="title" class="form-input @error('title') error @enderror"
+                            placeholder="e.g., Smart Lock Installation" value="{{ old('title') }}" required>
                         @error('title')
                             <span class="error-message show">{{ $message }}</span>
                         @enderror
@@ -289,12 +285,9 @@
                         <label class="form-label">
                             Description<span class="required">*</span>
                         </label>
-                        <textarea
-                            name="description"
-                            id="description"
+                        <textarea name="description" id="description"
                             class="form-textarea @error('description') error @enderror"
-                            placeholder="Provide detailed information about the problem..."
-                        >{{ old('description') }}</textarea>
+                            placeholder="Provide detailed information about the problem...">{{ old('description') }}</textarea>
                         @error('description')
                             <span class="error-message show">{{ $message }}</span>
                         @enderror
@@ -306,13 +299,8 @@
                             Upload Image
                             <small class="text-muted">(Optional, attach a picture of the issue if available)</small>
                         </label>
-                        <input
-                            type="file"
-                            name="image"
-                            id="image"
-                            class="form-input @error('image') error @enderror"
-                            accept="image/*"
-                        >
+                        <input type="file" name="image" id="image" class="form-input @error('image') error @enderror"
+                            accept="image/*">
                         @error('image')
                             <span class="error-message show">{{ $message }}</span>
                         @enderror
@@ -323,15 +311,9 @@
                         <label class="form-label">
                             Service Address<span class="required">*</span>
                         </label>
-                        <input
-                            type="text"
-                            name="address"
-                            id="address"
-                            class="form-input @error('address') error @enderror"
+                        <input type="text" name="address" id="address" class="form-input @error('address') error @enderror"
                             placeholder="Enter your address in detail and any distinguishing features, if applicable."
-                            value="{{ old('address') }}"
-                            required
-                        >
+                            value="{{ old('address') }}" required>
                         @error('address')
                             <span class="error-message show">{{ $message }}</span>
                         @enderror
@@ -384,7 +366,7 @@
 
         // Add active state to nav items
         document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
+            item.addEventListener('click', function (e) {
                 document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
             });
@@ -401,7 +383,7 @@
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    function(position) {
+                    function (position) {
                         const latitude = position.coords.latitude;
                         const longitude = position.coords.longitude;
 
@@ -420,11 +402,11 @@
 
                         console.log('Location:', latitude, longitude);
                     },
-                    function(error) {
+                    function (error) {
                         // Handle errors
                         let errorMessage = 'Unable to detect location';
 
-                        switch(error.code) {
+                        switch (error.code) {
                             case error.PERMISSION_DENIED:
                                 errorMessage = 'Location access denied';
                                 break;
@@ -462,12 +444,12 @@
         }
 
         // Call on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             getUserLocation();
         });
 
         // Form validation
-        document.getElementById('serviceRequestForm').addEventListener('submit', function(e) {
+        document.getElementById('serviceRequestForm').addEventListener('submit', function (e) {
             const latitude = document.getElementById('latitude').value;
             const longitude = document.getElementById('longitude').value;
 
@@ -477,5 +459,19 @@
                 return false;
             }
         });
+
+        function markAsRead(notificationId) {
+            fetch(`/notifications/${notificationId}/mark-as-read`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                },
+            }).then(() => {
+                // إعادة تحميل الصفحة لتحديث العداد
+                location.reload();
+            });
+        }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

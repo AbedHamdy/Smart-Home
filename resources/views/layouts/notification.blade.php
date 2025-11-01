@@ -1,4 +1,4 @@
-@if (auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->role === 'technician'))
+@if (auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->role === 'technician' || auth()->user()->role === 'client'))
     <div class="notification-wrapper" style="position: relative; display: inline-block;">
         <button class="notification-btn"
             style="position: relative; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 10px 15px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;">

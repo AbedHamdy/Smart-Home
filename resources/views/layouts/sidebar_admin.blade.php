@@ -5,14 +5,14 @@
     </div>
 
     <nav class="sidebar-nav">
+        {{-- Admin --}}
         @if (auth()->check() && auth()->user()->role === 'admin')
             <a href="{{ route('admin_dashboard') }}"
                 class="nav-item {{ request()->routeIs('admin_dashboard') ? 'active' : '' }}">
                 <span class="nav-icon">📊</span>
                 <span>Dashboard</span>
             </a>
-            <a href="{{ route('admin.client') }}"
-                class="nav-item {{ request()->routeIs('admin.client') ? 'active' : '' }}">
+            <a href="{{ route('admin.client') }}" class="nav-item {{ request()->routeIs('admin.client') ? 'active' : '' }}">
                 <span class="nav-icon">👥</span>
                 <span>Clients</span>
             </a>
@@ -27,26 +27,27 @@
                 <span>Technician Join Requests</span>
             </a>
 
-            <a href="{{ route('category.index') }}"
-                class="nav-item {{ request()->routeIs('category*') ? 'active' : '' }}">
+            <a href="{{ route('category.index') }}" class="nav-item {{ request()->routeIs('category*') ? 'active' : '' }}">
                 <span class="nav-icon">🏷️</span>
                 <span>Categories</span>
             </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">💰</span>
-                <span>Payments</span>
+            <a href="{{ route("admin_service_request.index") }}" class="nav-item {{ request()->routeIs('admin_service_request.*') ? 'active' : '' }}">
+                <span class="nav-icon">🧾</span>
+                <span>Requests</span>
             </a>
-            <a href="#" class="nav-item">
+            {{-- <a href="#" class="nav-item">
                 <span class="nav-icon">⭐</span>
                 <span>Reviews</span>
             </a>
             <a href="#" class="nav-item">
                 <span class="nav-icon">⚙️</span>
                 <span>Settings</span>
-            </a>
+            </a> --}}
         @endif
 
+        {{-- Client --}}
         @if (auth()->check() && auth()->user()->role === 'client')
+
             <a href="{{ route('client_dashboard') }}"
                 class="nav-item {{ request()->routeIs('client_dashboard') ? 'active' : '' }}">
                 <span class="nav-icon">📊</span>
@@ -65,17 +66,36 @@
                 <span>My Requests</span>
             </a>
 
-            <a href="#" class="nav-item">
-                <span class="nav-icon">🔔</span>
-                <span>Notifications</span>
-            </a>
+            {{-- <li class="nav-item dropdown">
+                <a class="nav-link" href="#" data-bs-toggle="dropdown">
+                    <span class="nav-icon">🔔</span>
+                    <span>Notifications</span>
+                    <span class="badge bg-danger">{{ auth()->user()->unreadNotifications->count() }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    @forelse(auth()->user()->unreadNotifications as $notification)
+                        <li>
+                            <a class="dropdown-item" href="{{ $notification->data['url'] }}"
+                                onclick="markAsRead('{{ $notification->id }}')">
+                                <strong>{{ $notification->data['title'] }}</strong><br>
+                                {{ $notification->data['message'] }}
+                            </a>
+                        </li>
+                    @empty
+                        <li><span class="dropdown-item">No new notifications</span></li>
+                    @endforelse
+                </ul>
+            </li> --}}
 
             <a href="{{ route("client_profile.index") }}"
                 class="nav-item {{ request()->routeIs('client_profile.*') ? 'active' : '' }}">
                 <span class="nav-icon">👤</span>
                 <span>Profile</span>
             </a>
+
         @endif
+
+        {{-- Technician --}}
         @if (auth()->check() && auth()->user()->role === 'technician')
             <a href="{{ route('technician_dashboard') }}"
                 class="nav-item {{ request()->routeIs('technician_dashboard') ? 'active' : '' }}">
@@ -93,12 +113,12 @@
                 <span>My Requests</span>
             </a>
             <!-- Ratings / Feedback -->
-            <a href=""
-                class="nav-item {{ request()->routeIs('technician_ratings.*') ? 'active' : '' }}">
+            <a href="{{ route("technician_rating.index") }}"
+                class="nav-item {{ request()->routeIs('technician_rating.index') ? 'active' : '' }}">
                 <span class="nav-icon">⭐</span>
                 <span>Ratings</span>
             </a>
-            <a href=""
+            <a href="{{ route("technician_profile.index") }}"
                 class="nav-item {{ request()->routeIs('technician_profile.*') ? 'active' : '' }}">
                 <span class="nav-icon">👤</span>
                 <span>Profile</span>

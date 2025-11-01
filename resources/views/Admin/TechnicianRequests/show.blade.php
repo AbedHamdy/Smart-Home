@@ -291,7 +291,7 @@
                     <h1 class="page-title">Technician Request Details</h1>
                 </div>
                 <div class="topbar-right">
-                @include('layouts.notification')>
+                {{-- @include('layouts.notification')> --}}
                 </div>
             </header>
 

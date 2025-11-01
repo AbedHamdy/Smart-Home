@@ -5,13 +5,18 @@ use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\TechnicianController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\TechnicianRequestsController;
+use App\Http\Controllers\Admin\ServiceRequestAdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Client\DashboardClientController;
+use App\Http\Controllers\Client\StripeController;
 use App\Http\Controllers\Client\ProfileController;
+use App\Http\Controllers\Client\RatingController;
 use App\Http\Controllers\Client\ServiceRequestController;
 use App\Http\Controllers\Technician\DashboardTechnicianController;
 use App\Http\Controllers\Technician\RequestController;
 use App\Http\Controllers\Technician\TechnicianVerificationController;
+use App\Http\Controllers\Technician\ProfileTechnicianController;
+use App\Http\Controllers\Technician\RatingTechnicianController;
 use App\Http\Controllers\TechnicianLocationController;
 use Illuminate\Support\Facades\Route;
 
@@ -89,16 +94,20 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->where('id', '[1-9][0-9]*')
         ->name("admin_technician_requests.show");
 
-    // Notification
-    Route::get('/notification/{id}/read', function($id) {
-        $notification = auth()->user()->notifications()->findOrFail($id);
-        if (!$notification->read_at)
-        {
-            $notification->markAsRead();
-        }
-        return redirect($notification->data['url'] ?? '/admin/dashboard');
-    })->name('notification.read');
+    // ServiceRequest
+    Route::get("/admin/management/all/service/requests", [ServiceRequestAdminController::class, "index"])->name("admin_service_request.index");
+    Route::get("/admin/management/{id}/service/request", [ServiceRequestAdminController::class, "show"])
+        ->where('id', '[1-9][0-9]*')
+        ->name("admin_service_request.show");
+    Route::put("/admin/management/update/status/{id}/service/request", [ServiceRequestAdminController::class, "updateStatus"])
+        ->where('id', '[1-9][0-9]*')
+        ->name("admin_service_request.update_status");
 
+    Route::post('/notifications/{id}/mark-as-read', function($id){
+        $notification = auth()->user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
+        return response()->json(['status' => 'success']);
+    });
 });
 
 // Client
@@ -113,6 +122,9 @@ Route::middleware(['auth', 'client',  'update.last.activity'])->group(function (
     Route::get('/client/show/{id}/requests', [ServiceRequestController::class, 'show'])
         ->where('id', '[1-9][0-9]*')
         ->name('client.service_request.show');
+    Route::post('/client/quote/respond/{id}/requests', [ServiceRequestController::class, 'respond'])
+        ->where('id', '[1-9][0-9]*')
+        ->name('client.service_request.respond');
     Route::delete('/client/delete/{id}/request', [ServiceRequestController::class, 'destroy'])
         ->where('id', '[1-9][0-9]*')
         ->name('client.service_request.destroy');
@@ -121,12 +133,31 @@ Route::middleware(['auth', 'client',  'update.last.activity'])->group(function (
     Route::get("/client/profile", [ProfileController::class, "index"])->name("client_profile.index");
     Route::put("/client/profile/update/information", [ProfileController::class, "update"])->name("client_profile.update");
     Route::put("/client/profile/update/password", [ProfileController::class, "updatePassword"])->name("client_profile.updatePassword");
+
+    // Rating
+    Route::post("client/rating/store", [RatingController::class, "store"])->name("client.service_request.rating.store");
+
+    // Payment
+    // Route::post('/paymob/processed', [PaymentController::class, 'processed']);
+    // Route::get('/paymob/response', [PaymentController::class, 'response']);
+
+    // Stripe
+    Route::post('/service-request/{id}/payment', [StripeController::class, 'createCheckoutSession'])
+        ->where('id', '[1-9][0-9]*')
+        ->name('client.service_request.payment');
+    Route::get('/payment/success/{payment}', [StripeController::class, 'success'])->name('client.stripe.success');
+    Route::get('/payment/cancel/{payment}', [StripeController::class, 'cancel'])->name('client.stripe.cancel');
 });
 
 // Technician
 Route::middleware(['auth', 'technician',  'update.last.activity.technician'])->group(function () {
     // Dashboard
     Route::get("/technician/dashboard", [DashboardTechnicianController::class, "index"])->name("technician_dashboard");
+
+    // Profile
+    Route::get("/technician/profile", [ProfileTechnicianController::class, "index"])->name("technician_profile.index");
+    Route::put("/technician/profile/update/information", [ProfileTechnicianController::class, "update"])->name("technician_profile.update");
+    Route::put("/technician/profile/update/password", [ProfileTechnicianController::class, "updatePassword"])->name("technician_profile.updatePassword");
 
     // Request
     Route::get("/technician/requests", [RequestController::class, "index"])->name("technician_requests.index");
@@ -146,6 +177,11 @@ Route::middleware(['auth', 'technician',  'update.last.activity.technician'])->g
     Route::put('/requests/{id}/reject', [RequestController::class, 'reject'])
         ->where('id', '[1-9][0-9]*')
         ->name('technician_requests.reject');
+    Route::put('/technician/requests/{order}/report-issue', [RequestController::class, 'reportIssue'])
+        ->name('technician_request.report_issue');
+    Route::put('/requests/{id}/inspection', [RequestController::class, 'submitInspection'])
+        ->where('id', '[1-9][0-9]*')
+        ->name('technician_request.submit_inspection');
 
     // Location
     Route::post('/technician/update-location', [TechnicianController::class, 'updateLocation'])->name('technician.updateLocation');
@@ -154,4 +190,18 @@ Route::middleware(['auth', 'technician',  'update.last.activity.technician'])->g
     Route::get('/technician/verification', [TechnicianVerificationController::class, 'show'])->name('technician.verification');
     Route::post('/technician/verification', [TechnicianVerificationController::class, 'verify'])->name('technician.verification.verify');
     Route::post('/technician/verification/resend', [TechnicianVerificationController::class, 'resend'])->name('technician.verification.resend');
+
+    // Rating
+    Route::get("/technician/rating", [RatingTechnicianController::class, "index"])->name("technician_rating.index");
 });
+
+
+// Notification
+    Route::get('/notification/{id}/read', function($id) {
+        $notification = auth()->user()->notifications()->findOrFail($id);
+        if (!$notification->read_at)
+        {
+            $notification->markAsRead();
+        }
+        return redirect($notification->data['url'] ?? '/admin/dashboard');
+    })->name('notification.read');

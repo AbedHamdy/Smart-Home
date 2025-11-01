@@ -12,54 +12,100 @@
 
         .tech-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 30px;
-            border-radius: 12px;
+            padding: 35px;
+            border-radius: 15px;
             color: white;
             margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
         }
 
         .tech-header-content {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 30px;
         }
 
         .tech-avatar {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             background: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 48px;
             font-weight: bold;
             color: #667eea;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            border: 4px solid rgba(255, 255, 255, 0.3);
         }
 
         .tech-info h2 {
-            margin: 0 0 10px 0;
-            font-size: 28px;
+            margin: 0 0 15px 0;
+            font-size: 32px;
+            font-weight: 700;
         }
 
         .tech-meta {
             display: flex;
+            flex-wrap: wrap;
             gap: 20px;
-            font-size: 14px;
+            font-size: 15px;
             opacity: 0.95;
         }
 
         .tech-meta span {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 15px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 13px;
+            font-weight: 500;
         }
 
         .details-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 25px;
             margin-bottom: 30px;
         }
@@ -68,14 +114,21 @@
             background: white;
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             border: 1px solid #e9ecef;
+            transition: transform 0.3s;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
         }
 
         .detail-card h3 {
             margin: 0 0 20px 0;
             color: #2c3e50;
             font-size: 18px;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -86,7 +139,8 @@
         .detail-row {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
+            align-items: center;
+            padding: 14px 0;
             border-bottom: 1px solid #f1f3f5;
         }
 
@@ -108,18 +162,26 @@
             word-break: break-word;
         }
 
-        .reviews-section {
+        .reviews-section, .service-requests-section {
             background: white;
             border-radius: 12px;
             padding: 30px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
         }
 
-        .reviews-section h3 {
-            margin: 0 0 25px 0;
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-header h3 {
+            margin: 0;
             color: #2c3e50;
-            font-size: 20px;
+            font-size: 22px;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -127,38 +189,43 @@
 
         .reviews-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 20px;
+            margin-bottom: 20px;
         }
 
         .review-card {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 20px;
-            border-radius: 10px;
-            transition: transform 0.3s;
+            padding: 22px;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .review-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         }
 
         .review-header {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 15px;
         }
 
         .review-client-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
             background: #667eea;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
         }
 
         .review-client-info {
@@ -168,7 +235,8 @@
         .review-client-name {
             font-weight: 600;
             color: #2c3e50;
-            margin-bottom: 2px;
+            margin-bottom: 3px;
+            font-size: 15px;
         }
 
         .review-date {
@@ -179,20 +247,24 @@
         .review-rating {
             color: #f59e0b;
             font-size: 18px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 2px;
         }
 
         .review-comment {
             color: #4a5568;
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
+            font-style: italic;
         }
 
         .availability-badge {
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
+            display: inline-block;
         }
 
         .availability-available {
@@ -210,6 +282,111 @@
             color: #721c24;
         }
 
+        .requests-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .requests-table th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .requests-table td {
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .requests-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-accepted {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-in-progress {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Pagination Styles */
+        .pagination-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .pagination {
+            display: flex;
+            list-style: none;
+            gap: 5px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .pagination li {
+            display: inline-block;
+        }
+
+        .pagination a, .pagination span {
+            display: block;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #667eea;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 2px solid #e9ecef;
+        }
+
+        .pagination a:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .pagination .active span {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .pagination .disabled span {
+            color: #cbd5e0;
+            cursor: not-allowed;
+            border-color: #e9ecef;
+        }
+
         .action-buttons {
             display: flex;
             gap: 15px;
@@ -218,36 +395,52 @@
         }
 
         .btn-action {
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-size: 14px;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 15px;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
             transition: all 0.3s;
-        }
-
-        .btn-back {
-            background: linear-gradient(135deg, #9e9e9e, #616161);
-            color: white;
             text-decoration: none;
         }
 
-        .btn-back:hover {
-            background: linear-gradient(135deg, #757575, #424242);
+        .btn-back {
+            background: linear-gradient(135deg, #6c757d, #495057);
             color: white;
         }
 
+        .btn-back:hover {
+            background: linear-gradient(135deg, #5a6268, #343a40);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+        }
+
         .btn-delete {
-            background: #dc3545;
+            background: linear-gradient(135deg, #dc3545, #c82333);
             color: white;
             border: none;
         }
 
         .btn-delete:hover {
-            background: #c82333;
+            background: linear-gradient(135deg, #c82333, #bd2130);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 15px;
+            opacity: 0.5;
         }
 
         @media (max-width: 768px) {
@@ -265,8 +458,21 @@
                 grid-template-columns: 1fr;
             }
 
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+
             .reviews-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .requests-table {
+                font-size: 13px;
+            }
+
+            .requests-table th,
+            .requests-table td {
+                padding: 10px 8px;
             }
         }
     </style>
@@ -283,10 +489,10 @@
                     <h1 class="page-title">Technician Details</h1>
                 </div>
                 <div class="topbar-right">
-                    <div class="search-box">
+                    {{-- <div class="search-box">
                         <input type="text" placeholder="Search...">
                         <span class="search-icon">🔍</span>
-                    </div>
+                    </div> --}}
                     @include('layouts.notification')
                 </div>
             </header>
@@ -309,6 +515,30 @@
                                 <span>⭐ {{ number_format($technician->rating, 1) }} Rating</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Overview -->
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-value">{{ $stats['total_requests'] }}</div>
+                        <div class="stat-label">Total Requests</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-value">{{ $stats['completed_requests'] }}</div>
+                        <div class="stat-label">Completed Jobs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-value">{{ $stats['total_ratings'] }}</div>
+                        <div class="stat-label">Total Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-value">{{ number_format($stats['average_rating'], 1) }}</div>
+                        <div class="stat-label">Average Rating</div>
                     </div>
                 </div>
 
@@ -347,8 +577,12 @@
                             <span class="detail-value">{{ $technician->created_at->format('M d, Y') }}</span>
                         </div>
                         <div class="detail-row">
+                            <span class="detail-label">Last Updated</span>
+                            <span class="detail-value">{{ $technician->updated_at->format('M d, Y') }}</span>
+                        </div>
+                        <div class="detail-row">
                             <span class="detail-label">Rating</span>
-                            <span class="detail-value">⭐ {{ number_format($technician->rating, 1) }}</span>
+                            <span class="detail-value">⭐ {{ number_format($technician->rating, 1) }}/5.0</span>
                         </div>
                         <div class="detail-row">
                             <span class="detail-label">Availability Status</span>
@@ -358,61 +592,114 @@
                                 </span>
                             </span>
                         </div>
-                    </div>
-
-                    <!-- Statistics -->
-                    <div class="detail-card">
-                        <h3><span>📈</span> Performance Statistics</h3>
                         <div class="detail-row">
-                            <span class="detail-label">Average Response Time</span>
-                            <span class="detail-value">2.5 hours</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Completion Rate</span>
-                            <span class="detail-value">95%</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Client Satisfaction</span>
-                            <span class="detail-value">4.8/5.0</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">On-Time Arrival</span>
-                            <span class="detail-value">98%</span>
+                            <span class="detail-label">Account Status</span>
+                            <span class="detail-value">
+                                <span class="availability-badge availability-available">Active</span>
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Reviews Section -->
-                {{-- <div class="reviews-section">
-                    <h3>⭐ Client Reviews</h3>
-                    <div class="reviews-grid">
-                        @forelse($technician->reviews as $review)
-                            <div class="review-card">
-                                <div class="review-header">
-                                    <div class="review-client-avatar">
-                                        {{ strtoupper(substr($review->client->user->name ?? 'A', 0, 1)) }}
-                                    </div>
-                                    <div class="review-client-info">
-                                        <div class="review-client-name">{{ $review->client->user->name ?? 'Anonymous' }}</div>
-                                        <div class="review-date">{{ $review->created_at->format('M d, Y') }}</div>
-                                    </div>
-                                </div>
-                                <div class="review-rating">
-                                    @for($i = 0; $i < $review->rating; $i++)
-                                        ⭐
-                                    @endfor
-                                </div>
-                                <div class="review-comment">
-                                    {{ $review->comment }}
-                                </div>
-                            </div>
-                        @empty
-                            <p style="grid-column: 1/-1; text-align: center; color: #6c757d;">
-                                No reviews yet.
-                            </p>
-                        @endforelse
+                <!-- Service Requests Section -->
+                <div class="service-requests-section">
+                    <div class="section-header">
+                        <h3>🔧 Service Requests History</h3>
                     </div>
-                </div> --}}
+
+                    @if($serviceRequests->count() > 0)
+                        <div style="overflow-x: auto;">
+                            <table class="requests-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Client Name</th>
+                                        <th>Service Type</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($serviceRequests as $request)
+                                        <tr>
+                                            <td>{{ $loop->iteration + ($serviceRequests->currentPage() - 1) * $serviceRequests->perPage() }}</td>
+                                            <td>{{ $request->client->user->name ?? 'N/A' }}</td>
+                                            <td>{{ $request->service_type }}</td>
+                                            <td>
+                                                <span class="status-badge status-{{ strtolower(str_replace(' ', '-', $request->status)) }}">
+                                                    {{ ucfirst($request->status) }}
+                                                </span>
+                                            </td>
+                                            <td>{{ $request->created_at->format('M d, Y') }}</td>
+                                            <td>
+                                                {{ ($request->repair_cost || $request->inspection_fee) ? number_format(($request->repair_cost ?? 0) + ($request->inspection_fee ?? 0), 2) . ' EGP ' : 'N/A' }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination for Service Requests -->
+                        <div class="pagination-wrapper">
+                            {{ $serviceRequests->appends(['ratings_page' => request('ratings_page')])->links() }}
+                        </div>
+                    @else
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <p>No service requests found for this technician.</p>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Reviews Section -->
+                <div class="reviews-section">
+                    <div class="section-header">
+                        <h3>⭐ Client Reviews ({{ $stats['total_ratings'] }})</h3>
+                    </div>
+
+                    @if($ratings->count() > 0)
+                        <div class="reviews-grid">
+                            @foreach($ratings as $rating)
+                                <div class="review-card">
+                                    <div class="review-header">
+                                        <div class="review-client-avatar">
+                                            {{ strtoupper(substr($rating->client->user->name ?? 'A', 0, 1)) }}
+                                        </div>
+                                        <div class="review-client-info">
+                                            <div class="review-client-name">{{ $rating->client->user->name ?? 'Anonymous' }}</div>
+                                            <div class="review-date">{{ $rating->created_at->format('M d, Y') }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="review-rating">
+                                        @for($i = 0; $i < $rating->rating; $i++)
+                                            ⭐
+                                        @endfor
+                                        <span style="color: #6c757d; font-size: 14px; margin-left: 5px;">
+                                            ({{ $rating->rating }}/5)
+                                        </span>
+                                    </div>
+                                    @if($rating->comment)
+                                        <div class="review-comment">
+                                            "{{ $rating->comment }}"
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Pagination for Reviews -->
+                        <div class="pagination-wrapper">
+                            {{ $ratings->appends(['requests_page' => request('requests_page')])->links() }}
+                        </div>
+                    @else
+                        <div class="empty-state">
+                            <div class="empty-state-icon">💭</div>
+                            <p>No reviews yet for this technician.</p>
+                        </div>
+                    @endif
+                </div>
 
                 <!-- Action Buttons -->
                 <div class="action-buttons">
@@ -433,14 +720,16 @@
     </div>
 @endsection
 
-{{-- @section('scripts')
-    <script>
+@section('scripts')
+    {{-- <script>
         // Toggle Sidebar
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.querySelector('.sidebar');
 
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-        });
-    </script>
-@endsection --}}
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('collapsed');
+            });
+        }
+    </script> --}}
+@endsection

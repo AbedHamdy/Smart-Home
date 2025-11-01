@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\TechnicianStatusMail;
+use App\Models\ServiceRequest;
 use App\Models\Technician;
 use App\Models\TechnicianApplication;
 use Illuminate\Http\Request;

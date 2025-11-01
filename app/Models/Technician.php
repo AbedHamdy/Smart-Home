@@ -40,4 +40,14 @@ class Technician extends Model
     {
         return $this->hasMany(ServiceRequest::class, 'technician_id');
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function completedRequests()
+    {
+        return $this->hasMany(ServiceRequest::class)->where('status', 'completed');
+    }
 }

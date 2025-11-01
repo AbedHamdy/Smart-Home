@@ -14,20 +14,19 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'Electrical Systems',
-            'Security Systems',
-            'HVAC (Heating, Ventilation, Air Conditioning)',
-            'Home Automation / IoT',
-            'Networking / Wi-Fi',
-            'Plumbing & Water Systems',
-            'Solar Energy Systems',
+            ['name' => 'Electrical Systems', 'price' => 250],
+            ['name' => 'Security Systems', 'price' => 300],
+            ['name' => 'HVAC (Heating, Ventilation, Air Conditioning)', 'price' => 350],
+            ['name' => 'Home Automation / IoT', 'price' => 400],
+            ['name' => 'Networking / Wi-Fi', 'price' => 200],
+            ['name' => 'Plumbing & Water Systems', 'price' => 220],
+            ['name' => 'Solar Energy Systems', 'price' => 450],
         ];
 
         foreach ($categories as $category)
         {
-            Category::create([
-                'name' => $category
-            ]);
+            Category::create($category);
         }
     }
+
 }

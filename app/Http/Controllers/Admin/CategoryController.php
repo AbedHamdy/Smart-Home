@@ -14,7 +14,25 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate();
+        $categories = Category::withCount('technicians')
+            ->with(['technicians' => function($query) {
+                $query->select('id', 'category_id', 'rating');
+            }])
+            ->paginate();
+
+        // حساب متوسط التقييمات لكل تخصص
+        foreach ($categories as $category)
+        {
+            if ($category->technicians->count() > 0)
+            {
+                $category->average_rating = $category->technicians->avg('rating');
+            }
+            else
+            {
+                $category->average_rating = 0;
+            }
+        }
+
         return view("Admin.Category.index", compact("categories"));
     }
 
@@ -33,9 +51,15 @@ class CategoryController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255|unique:categories,name',
+            "price" => "required|numeric|min:0"
         ]);
 
-        Category::create($data);
+        Category::updateOrCreate(
+['name' => $request->name],
+    [
+                'price' => $request->price,
+            ]);
+
         return redirect()->route('category.index')->with('success', 'Category created successfully!');
     }
 
@@ -70,17 +94,18 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name',
-        ]);
-
         $category = Category::find($id);
         if(!$category)
         {
             return redirect()->back()->with("error" , "Category not found. It may have been deleted or does not exist.");
         }
+
+        $data = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'price' => 'required|numeric|min:0',
+        ]);
 
         $category->update($data);
         return redirect()->route('category.index')->with('success', 'Category updated successfully!');
@@ -106,7 +131,7 @@ class CategoryController extends Controller
                 {
                     $technician->user->delete(); // حذف المستخدم المرتبط بالـ morph
                 }
-                
+
                 $technician->delete(); // حذف الفني نفسه
             }
             $category->delete();

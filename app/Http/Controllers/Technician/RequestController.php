@@ -5,9 +5,15 @@ namespace App\Http\Controllers\Technician;
 use App\Http\Controllers\Controller;
 use App\Models\RejectedRequest;
 use App\Models\ServiceRequest;
+use App\Models\User;
+use App\Notifications\InspectionReportSubmittedToAdmin;
+use App\Notifications\InspectionReportSubmittedToClient;
+use App\Notifications\IssueReported;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
+// use App\Models\Notification;
 
 class RequestController extends Controller
 {
@@ -39,6 +45,7 @@ class RequestController extends Controller
             ) AS distance")
         )
             ->where('status', 'pending')
+            ->where('category_id', $technician->category_id)
             ->having('distance', '<=', $radius)
             ->orderBy('distance')
             ->paginate( );
@@ -196,20 +203,53 @@ class RequestController extends Controller
             return redirect()->back()->with('error', 'Request not found or you do not have permission.');
         }
 
-        // Validate status transitions
+        // dd($order);
+        // التحقق من الانتقالات المسموح بها
         if ($order->status == 'assigned' && $request->status == 'completed')
         {
             return redirect()->back()->with('error', 'You must start the job before completing it.');
         }
 
-        if ($order->status == 'completed' || $order->status == 'canceled')
+        // ✅ السماح بتحويل rescheduled إلى in_progress
+        if ($order->status == 'rescheduled' && $request->status != 'in_progress')
+        {
+            return redirect()->back()->with('error', 'You must start the job first.');
+        }
+
+        if (in_array($order->status, ['completed', 'canceled']))
         {
             return redirect()->back()->with('error', 'Cannot update a completed or canceled request.');
         }
 
+        if ($order->status == 'approved_for_repair' && $request->status == 'completed')
+        {
+            if ($order->payment_status !== 'paid')
+            {
+                return redirect()->back()->with('error', 'Cannot complete the job before payment is made.');
+            }
+        }
+
+        // ✅ تحديث حالة الطلب
         $order->status = $request->status;
         $order->save();
 
+        // ✅ تحديث حالة الفني حسب حالة الطلب
+        $technician = $user->userable;
+
+        if ($technician)
+        {
+            if ($request->status === 'in_progress')
+            {
+                $technician->availability_status = 'busy';
+            }
+            elseif (in_array($request->status, ['completed', 'canceled']))
+            {
+                $technician->availability_status = 'available';
+            }
+            $technician->save();
+        }
+
+        // ✅ الرسائل
         $statusMessage = [
             'in_progress' => 'Job started successfully!',
             'completed' => 'Job completed successfully!',
@@ -217,5 +257,110 @@ class RequestController extends Controller
         ];
 
         return redirect()->route('technician_request.myRequests')->with('success', $statusMessage[$request->status]);
+    }
+
+    public function reportIssue(Request $request, $orderId)
+    {
+        $data = $request->validate([
+            'issue_type' => 'required|string',
+            'technician_report' => 'required|string|min:10',
+        ]);
+
+        // dd($data);
+        $order = ServiceRequest::find($orderId);
+        if (!$order)
+        {
+            return redirect()->back()->with('error', 'Request not found or you do not have permission.');
+        }
+
+        if ($order->technician_id != Auth::user()->userable_id)
+        {
+            return redirect()->back()->with('error', 'Unauthorized action');
+        }
+
+        DB::beginTransaction();
+        try
+        {
+            $order->update([
+                'status' => 'issue_reported',
+                'technician_report' => $data["technician_report"],
+                'issue_type' => $data["issue_type"],
+                'issue_reported_at' => now(),
+            ]);
+
+            // dd($order->client->user);
+            $order->client->user->notify(new IssueReported($order));
+
+            $adminUsers = User::where('role', 'admin')->get();
+            foreach ($adminUsers as $admin)
+            {
+                $admin->notify(new IssueReported($order, true));
+            }
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Issue reported successfully. Admin will review it soon.');
+        }
+        catch(\Exception $e)
+        {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Something went wrong while submitting the issue. Please try again later.');
+        }
+    }
+
+    public function submitInspection(Request $request, $id)
+    {
+        $data = $request->validate([
+            'technician_report' => 'required|string|min:20',
+            'repair_cost' => 'required|numeric|min:0',
+        ]);
+
+        // dd($data);
+        $order = ServiceRequest::find($id);
+        if (!$order)
+        {
+            return redirect()->back()->with('error', 'Request not found or you do not have permission.');
+        }
+
+        // تأكد أن الطلب للفني الحالي
+        if ($order->technician_id != Auth::user()->userable_id)
+        {
+            return redirect()->back()->with('error', 'Unauthorized action');
+        }
+
+        // تأكد أن الحالة in_progress
+        if ($order->status != 'in_progress')
+        {
+            return redirect()->back()->with('error', 'Invalid request status');
+        }
+
+        // حفظ تقرير المعاينة وسعر التصليح
+        DB::beginTransaction();
+        try
+        {
+            $order->update([
+                'technician_report' => $data["technician_report"],
+                'repair_cost' => $data["repair_cost"],
+                "status" => "waiting_for_approval",
+                // 'client_approved' => null,
+            ]);
+
+            $userOfClient = $order->client->user;
+            // dd($userOfClient);
+
+            // إرسال إشعار للعميل
+            $userOfClient->notify(new InspectionReportSubmittedToClient($order));
+
+            // إرسال إشعار للأدمن أيضاً
+            $adminUsers = User::where('role', 'admin')->get();
+            Notification::send($adminUsers, new InspectionReportSubmittedToAdmin($order));
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Inspection report submitted successfully. Waiting for client approval.');
+        }
+        catch(\Exception $e)
+        {
+            DB::rollback();
+            return redirect()->back()->with('error', 'An error occurred while submitting the inspection report. Please try again or contact support.' . $e->getMessage())->withInput();
+        }
     }
 }

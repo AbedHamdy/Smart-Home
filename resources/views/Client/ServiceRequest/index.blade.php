@@ -1,8 +1,9 @@
-@extends("layouts.app")
+@extends('layouts.app')
 @section('title', 'My Service Requests')
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .requests-container {
             background: white;
@@ -142,32 +143,65 @@
             border-radius: 8px;
             font-size: 12px;
             font-weight: 600;
-            display: inline-block;
+            text-transform: capitalize;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
         }
 
-        .status-pending {
-            background: #FFF3E0;
-            color: #E65100;
+        /* Pending - Yellow/Amber */
+        .status-badge.status-pending {
+            background: #FEF3C7;
+            color: #92400E;
         }
 
-        .status-assigned {
-            background: #E3F2FD;
-            color: #1565C0;
+        /* Assigned - Blue */
+        .status-badge.status-assigned {
+            background: #DBEAFE;
+            color: #1E40AF;
         }
 
-        .status-in_progress {
+        /* In Progress - Purple */
+        .status-badge.status-in_progress {
             background: #F3E5F5;
             color: #6A1B9A;
         }
 
-        .status-completed {
-            background: #E8F5E9;
-            color: #2E7D32;
+        /* Waiting for Approval - Violet */
+        .status-badge.status-waiting_for_approval {
+            background: #F3E8FF;
+            color: #6B21A8;
         }
 
-        .status-canceled {
-            background: #FFEBEE;
-            color: #C62828;
+        /* Approved for Repair - Green */
+        .status-badge.status-approved_for_repair {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        /* Issue Reported - Orange/Red */
+        .status-badge.status-issue_reported {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        /* Rescheduled - Light Blue */
+        .status-badge.status-rescheduled {
+            background: #E0F2FE;
+            color: #075985;
+        }
+
+        /* Completed - Green */
+        .status-badge.status-completed {
+            background: #DCFCE7;
+            color: #166534;
+        }
+
+        /* Canceled - Red */
+        .status-badge.status-canceled {
+            background: #FECACA;
+            color: #7F1D1D;
         }
 
         .action-btn {
@@ -291,13 +325,14 @@
                     <h1 class="page-title">My Service Requests</h1>
                 </div>
                 <div class="topbar-right">
-                    <div class="search-box">
+                    {{-- <div class="search-box">
                         <input type="text" placeholder="Search...">
                         <span class="search-icon">🔍</span>
-                    </div>
+                    </div> --}}
                     @include('layouts.notification')
                     <div class="user-menu">
-                        <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=2563eb&color=fff" alt="Client">
+                        <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=2563eb&color=fff"
+                            alt="Client">
                         <span class="user-name">{{ $user->name }}</span>
                     </div>
                 </div>
@@ -319,33 +354,41 @@
                     <span class="filter-label">Filter by Status:</span>
                     <div class="filter-buttons">
                         <button class="filter-btn {{ request('status') == '' ? 'active' : '' }}"
-                                onclick="filterByStatus('')">
+                            onclick="filterByStatus('')">
                             All
                         </button>
                         <button class="filter-btn {{ request('status') == 'pending' ? 'active' : '' }}"
-                                onclick="filterByStatus('pending')">
+                            onclick="filterByStatus('pending')">
                             Pending
                         </button>
                         <button class="filter-btn {{ request('status') == 'assigned' ? 'active' : '' }}"
-                                onclick="filterByStatus('assigned')">
+                            onclick="filterByStatus('assigned')">
                             Assigned
                         </button>
                         <button class="filter-btn {{ request('status') == 'in_progress' ? 'active' : '' }}"
-                                onclick="filterByStatus('in_progress')">
+                            onclick="filterByStatus('in_progress')">
                             In Progress
                         </button>
+                        <button class="filter-btn {{ request('status') == 'issue_reported' ? 'active' : '' }}"
+                            onclick="filterByStatus('issue_reported')">
+                            Issue Reported
+                        </button>
+                        <button class="filter-btn {{ request('status') == 'rescheduled' ? 'active' : '' }}"
+                            onclick="filterByStatus('rescheduled')">
+                            Rescheduled
+                        </button>
                         <button class="filter-btn {{ request('status') == 'completed' ? 'active' : '' }}"
-                                onclick="filterByStatus('completed')">
+                            onclick="filterByStatus('completed')">
                             Completed
                         </button>
                         <button class="filter-btn {{ request('status') == 'canceled' ? 'active' : '' }}"
-                                onclick="filterByStatus('canceled')">
+                            onclick="filterByStatus('canceled')">
                             Canceled
                         </button>
                     </div>
                 </div>
 
-                @if($serviceRequests->count() > 0)
+                @if ($serviceRequests->count() > 0)
                     <!-- Requests Table -->
                     <table class="requests-table">
                         <thead>
@@ -359,13 +402,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($serviceRequests as $request)
+                            @foreach ($serviceRequests as $request)
                                 <tr>
                                     <td>
-                                        @if($request->image)
-                                            <img src="{{ asset($request->image) }}"
-                                                 alt="Request Image"
-                                                 class="request-image">
+                                        @if ($request->image)
+                                            <img src="{{ asset($request->image) }}" alt="Request Image"
+                                                class="request-image">
                                         @else
                                             <div class="no-image">🔧</div>
                                         @endif
@@ -383,38 +425,61 @@
                                             @switch($request->status)
                                                 @case('pending')
                                                     ⏳ Pending
-                                                    @break
+                                                @break
+
                                                 @case('assigned')
                                                     👤 Assigned
-                                                    @break
+                                                @break
+
                                                 @case('in_progress')
                                                     🔄 In Progress
-                                                    @break
+                                                @break
+
+                                                @case('waiting_for_approval')
+                                                    ⏸️ Waiting for Approval
+                                                @break
+
+                                                @case('approved_for_repair')
+                                                    ✔️ Approved for Repair
+                                                @break
+
+                                                @case('issue_reported')
+                                                    ⚠️ Issue Reported
+                                                @break
+
+                                                @case('rescheduled')
+                                                    📅 Rescheduled
+                                                @break
+
                                                 @case('completed')
                                                     ✅ Completed
-                                                    @break
+                                                @break
+
                                                 @case('canceled')
                                                     ❌ Canceled
-                                                    @break
+                                                @break
+
+                                                @default
+                                                    {{ ucfirst(str_replace('_', ' ', $request->status)) }}
                                             @endswitch
                                         </span>
                                     </td>
                                     <td>
                                         <div style="font-size: 13px; color: var(--text-secondary);">
                                             {{ $request->created_at->format('M d, Y') }}<br>
-                                            <small style="font-size: 11px;">{{ $request->created_at->format('h:i A') }}</small>
+                                            <small
+                                                style="font-size: 11px;">{{ $request->created_at->format('h:i A') }}</small>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="action-buttons-wrapper">
                                             <a href="{{ route('client.service_request.show', $request->id) }}"
-                                               class="action-btn">
+                                                class="action-btn">
                                                 👁️
                                             </a>
-                                            @if($request->status === 'pending')
+                                            @if ($request->status === 'pending')
                                                 <form action="{{ route('client.service_request.destroy', $request->id) }}"
-                                                    method="POST"
-                                                    style="display:inline;"
+                                                    method="POST" style="display:inline;"
                                                     onsubmit="return confirm('Are you sure you want to delete this request?');">
                                                     @csrf
                                                     @method('DELETE')
@@ -440,8 +505,8 @@
                         <div class="empty-icon">📭</div>
                         <h3 class="empty-title">No Service Requests Found</h3>
                         <p class="empty-text">
-                            @if(request('status'))
-                                No requests with status "{{ request('status') }}" found.
+                            @if (request('status'))
+                                No requests with status "{{ ucfirst(str_replace('_', ' ', request('status'))) }}" found.
                             @else
                                 You haven't created any service requests yet.
                             @endif
@@ -476,5 +541,19 @@
             }
             window.location.href = url.toString();
         }
+
+        function markAsRead(notificationId) {
+            fetch(`/notifications/${notificationId}/mark-as-read`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                },
+            }).then(() => {
+                // إعادة تحميل الصفحة لتحديث العداد
+                location.reload();
+            });
+        }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

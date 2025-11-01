@@ -18,10 +18,23 @@ class ServiceRequest extends Model
         "image",
         "address",
         "status",
+        "payment_status",
         "completed_at",
+        "technician_report",
+        "issue_type",
+        "issue_reported_at",
+        // "price",
+        "inspection_fee",
+        "repair_cost",
+        "client_approved",
         "latitude",
         "longitude",
     ];
+
+    protected $casts = [
+        'issue_reported_at' => 'datetime',
+    ];
+
 
     public function client()
     {
@@ -40,11 +53,21 @@ class ServiceRequest extends Model
 
     public function clientUser()
     {
-        return $this->client->user;
+        return $this->client?->user;
     }
-    
+
     public function technicianUser()
     {
-        return $this->technician->user;
+        return $this->technician?->user;
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function latestPayment()
+    {
+        return $this->hasOne(Payment::class)->latest();
     }
 }

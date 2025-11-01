@@ -34,7 +34,8 @@ class TechnicianVerificationController extends Controller
         $attempts = session('verification_attempts', 0);
 
         // Check if code matches
-        if ($request->code == $storedCode) {
+        if ($request->code == $storedCode)
+        {
             // Update technician verification status
             $technician = Technician::find($technicianId);
             $technician->verified = true;
@@ -47,19 +48,28 @@ class TechnicianVerificationController extends Controller
             $user = $technician->user;
             auth()->login($user);
 
-            return redirect()->route('technician_dashboard')
-                ->with('success', 'Your account has been verified successfully!');
-        } else {
+            if($user->role == "technician")
+            {
+                // $technician = $user->userable;
+                $technician->update([
+                    "status" => "online",
+                ]);
+            }
+
+            return redirect()->route('technician_dashboard')->with('success', 'Your account has been verified successfully!');
+        }
+        else
+        {
             // Increment attempts
             $attempts++;
             session(['verification_attempts' => $attempts]);
 
             // Check if max attempts reached
-            if ($attempts >= 3) {
+            if ($attempts >= 3)
+            {
                 session()->forget(['verification_code', 'technician_id', 'verification_attempts']);
 
-                return redirect()->route('login')
-                    ->with('error', 'Too many failed attempts. Please login again.');
+                return redirect()->route('login')->with('error', 'Too many failed attempts. Please login again.');
             }
 
             return back()->with('error', 'Invalid verification code. Attempts remaining: ' . (3 - $attempts));

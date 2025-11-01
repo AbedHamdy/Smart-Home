@@ -22,22 +22,26 @@ class TechnicianController extends Controller
         $query = Technician::with(['user', 'category']);
 
         // Filter by category
-        if ($request->filled('category')) {
+        if ($request->filled('category'))
+        {
             $query->where('category_id', $request->category);
         }
 
         // Filter by availability status
-        if ($request->filled('availability')) {
+        if ($request->filled('availability'))
+        {
             $query->where('availability_status', $request->availability);
         }
 
         // Filter by minimum rating
-        if ($request->filled('rating')) {
+        if ($request->filled('rating'))
+        {
             $query->where('rating', '>=', $request->rating);
         }
 
         // Apply search if provided
-        if ($request->filled('search')) {
+        if ($request->filled('search'))
+        {
             $searchTerm = $request->search;
             $query->whereHas('user', function ($q) use ($searchTerm) {
                 $q->where('name', 'LIKE', "%{$searchTerm}%")
@@ -137,18 +141,61 @@ class TechnicianController extends Controller
     public function show(string $id)
     {
         $user = Auth::user();
-        if(!$user->role == "admin")
+        if($user->role != "admin")
         {
-            return redirect()->route("login")->with("error" , "You are not authorized to access this page.");
+            return redirect()->route("login")->with("error", "You are not authorized to access this page.");
         }
 
+        // جلب بيانات التقني مع العلاقات الأساسية فقط
         $technician = Technician::with(['user', 'category'])->findOrFail($id);
+
         if(!$technician)
         {
-            return redirect()->back()->with("error" , "Technician not found. It may have been deleted or does not exist.");
+            return redirect()->back()->with("error", "Technician not found. It may have been deleted or does not exist.");
         }
 
-        return view('Admin.Technician.show', compact('technician'));
+        // جلب أول طلب واحد فقط
+        $firstRequest = $technician->serviceRequests()
+            ->with('client.user')
+            ->latest()
+            ->first();
+
+        // جلب أول 4 تقييمات للعرض المبدئي
+        $topReviews = $technician->ratings()
+            ->with('client.user')
+            ->latest()
+            ->take(4)
+            ->get();
+
+        // Pagination للطلبات (10 طلبات في الصفحة)
+        $serviceRequests = $technician->serviceRequests()
+            ->with('client.user')
+            ->latest()
+            ->paginate(10, ['*'], 'requests_page');
+
+        // Pagination للتقييمات (8 تقييمات في الصفحة)
+        $ratings = $technician->ratings()
+            ->with('client.user')
+            ->latest()
+            ->paginate(4, ['*'], 'ratings_page');
+
+        // dd($ratings);
+        // حساب الإحصائيات
+        $stats = [
+            'total_requests' => $technician->serviceRequests()->count(),
+            'completed_requests' => $technician->serviceRequests()->where('status', 'completed')->count(),
+            'total_ratings' => $technician->ratings()->count(),
+            'average_rating' => $technician->rating,
+        ];
+
+        return view('Admin.Technician.show', compact(
+            'technician',
+            'firstRequest',
+            'topReviews',
+            'serviceRequests',
+            'ratings',
+            'stats'
+        ));
     }
 
     /**

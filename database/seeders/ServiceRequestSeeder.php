@@ -12,21 +12,47 @@ class ServiceRequestSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 7; $i++)
-        {
-            ServiceRequest::create([
-                'client_id' => 2,
-                'technician_id' => null,
-                'category_id' => $i,
-                'title' => 'Service Request ' . $i,
-                'description' => 'This is a sample description for service request number ' . $i,
-                'image' => null,
-                'address' => 'Cairo, Egypt',
-                'status' => 'pending',
-                'completed_at' => null,
-                'latitude' => 30.01045500,
-                'longitude' => 31.33736060,
-            ]);
-        }
+        // بيانات أساسية مكررة
+        $baseData = [
+            'client_id' => 2,
+            'technician_id' => 2,
+            'category_id' => 2,
+            'address' => 'Nasr City, Cairo, Egypt',
+            'latitude' => 30.01038800,
+            'longitude' => 31.33723700,
+            'inspection_fee' => 150.00,
+            'repair_cost' => null,
+            'client_approved' => null,
+        ];
+
+        // 🛠️ إنشاء طلبين بالحالة in_progress
+        ServiceRequest::create(array_merge($baseData, [
+            'title' => 'Refrigerator not cooling',
+            'description' => 'Customer reports that the refrigerator is not cooling properly.',
+            'status' => 'in_progress',
+            'technician_report' => 'Technician on the way to inspect.',
+        ]));
+
+        ServiceRequest::create(array_merge($baseData, [
+            'title' => 'Washing machine not spinning',
+            'description' => 'Customer reports that the washing machine is not spinning.',
+            'status' => 'in_progress',
+            'technician_report' => 'Inspection scheduled for today.',
+        ]));
+
+        // 🔧 إنشاء طلبين بالحالة assigned
+        ServiceRequest::create(array_merge($baseData, [
+            'title' => 'Air conditioner leaking water',
+            'description' => 'Water leaking from indoor unit.',
+            'status' => 'assigned',
+            'technician_report' => 'Assigned to technician for inspection.',
+        ]));
+
+        ServiceRequest::create(array_merge($baseData, [
+            'title' => 'Microwave not heating',
+            'description' => 'Customer reports microwave runs but does not heat.',
+            'status' => 'assigned',
+            'technician_report' => 'Waiting for technician availability.',
+        ]));
     }
 }

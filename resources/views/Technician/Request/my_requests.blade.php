@@ -1,4 +1,4 @@
-@extends("layouts.app")
+@extends('layouts.app')
 @section('title', 'My Service Requests')
 
 @section('styles')
@@ -171,7 +171,56 @@
             border-radius: 8px;
             font-size: 12px;
             font-weight: 600;
-            display: inline-block;
+            text-transform: capitalize;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .status-badge.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-badge.assigned {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-badge.in_progress {
+            background: #fce7f3;
+            color: #9f1239;
+        }
+
+        .status-badge.waiting_for_approval {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .status-badge.approved_for_repair {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.issue_reported {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-badge.rescheduled {
+            background: #e0f2fe;
+            color: #075985;
+        }
+
+        .status-badge.completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-badge.canceled {
+            background: #fecaca;
+            color: #7f1d1d;
         }
 
         .status-assigned {
@@ -274,13 +323,14 @@
                     <h1 class="page-title">My Service Requests</h1>
                 </div>
                 <div class="topbar-right">
-                    <div class="search-box">
+                    {{-- <div class="search-box">
                         <input type="text" placeholder="Search...">
                         <span class="search-icon">🔍</span>
-                    </div>
+                    </div> --}}
                     @include('layouts.notification')
                     <div class="user-menu">
-                        <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=2563eb&color=fff" alt="Technician">
+                        <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=2563eb&color=fff"
+                            alt="Technician">
                         <span class="user-name">{{ $user->name }}</span>
                     </div>
                 </div>
@@ -298,26 +348,25 @@
                 <div class="filter-section">
                     <span class="filter-label">Filter by Status:</span>
                     <div class="filter-buttons">
-                        <button class="filter-btn {{ !request('status') ? 'active' : '' }}"
-                                onclick="filterByStatus('')">
+                        <button class="filter-btn {{ !request('status') ? 'active' : '' }}" onclick="filterByStatus('')">
                             📋 All
                         </button>
                         <button class="filter-btn {{ request('status') == 'assigned' ? 'active' : '' }}"
-                                onclick="filterByStatus('assigned')">
+                            onclick="filterByStatus('assigned')">
                             👤 Assigned
                         </button>
                         <button class="filter-btn {{ request('status') == 'in_progress' ? 'active' : '' }}"
-                                onclick="filterByStatus('in_progress')">
+                            onclick="filterByStatus('in_progress')">
                             🔄 In Progress
                         </button>
                         <button class="filter-btn {{ request('status') == 'completed' ? 'active' : '' }}"
-                                onclick="filterByStatus('completed')">
+                            onclick="filterByStatus('completed')">
                             ✅ Completed
                         </button>
                     </div>
                 </div>
 
-                @if($serviceRequests->count() > 0)
+                @if ($serviceRequests->count() > 0)
                     <!-- Requests Table -->
                     <table class="requests-table">
                         <thead>
@@ -331,12 +380,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($serviceRequests as $request)
+                            @foreach ($serviceRequests as $request)
                                 <tr>
                                     <td>
-                                        @if($request->image)
-                                            <img src="{{ asset($request->image) }}"
-                                                alt="Request Image"
+                                        @if ($request->image)
+                                            <img src="{{ asset($request->image) }}" alt="Request Image"
                                                 class="request-image">
                                         @else
                                             <div class="no-image">🔧</div>
@@ -351,8 +399,7 @@
                                     <td>
                                         <div class="client-info">
                                             <img src="https://ui-avatars.com/api/?name={{ $request->client->user->name }}&background=random&color=fff"
-                                                 alt="{{ $request->client->user->name }}"
-                                                 class="client-avatar">
+                                                alt="{{ $request->client->user->name }}" class="client-avatar">
                                             <div class="client-details">
                                                 <span class="client-name">{{ $request->client->user->name }}</span>
                                                 <span class="client-label">Client</span>
@@ -360,30 +407,58 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="status-badge status-{{ $request->status }}">
+                                        <span
+                                            class="status-badge {{ str_replace(' ', '_', strtolower($request->status)) }}">
                                             @switch($request->status)
                                                 @case('assigned')
                                                     👤 Assigned
-                                                    @break
+                                                @break
+
                                                 @case('in_progress')
                                                     🔄 In Progress
-                                                    @break
+                                                @break
+
+                                                @case('waiting_for_approval')
+                                                    ⏰ Waiting Approval
+                                                @break
+
+                                                @case('approved_for_repair')
+                                                    ✅ Approved
+                                                @break
+
+                                                @case('issue_reported')
+                                                    ⚠️ Issue Reported
+                                                @break
+
+                                                @case('rescheduled')
+                                                    📅 Rescheduled
+                                                @break
+
                                                 @case('completed')
                                                     ✅ Completed
-                                                    @break
+                                                @break
+
+                                                @case('canceled')
+                                                    ❌ Canceled
+                                                @break
+
+                                                @default
+                                                    {{ ucfirst(str_replace('_', ' ', $request->status)) }}
                                             @endswitch
                                         </span>
                                     </td>
+
                                     <td>
                                         <div style="font-size: 13px; color: var(--text-secondary);">
                                             {{ $request->created_at->format('M d, Y') }}<br>
-                                            <small style="font-size: 11px;">{{ $request->created_at->format('h:i A') }}</small>
+                                            <small
+                                                style="font-size: 11px;">{{ $request->created_at->format('h:i A') }}</small>
                                         </div>
                                     </td>
                                     <td>
                                         {{-- {{ route('technician.my_requests.show', $request->id) }} --}}
                                         <a href="{{ route('technician_request.showOne', $request->id) }}"
-                                           class="action-btn">
+                                            class="action-btn">
                                             👁️ View
                                         </a>
                                     </td>
@@ -402,7 +477,7 @@
                         <div class="empty-icon">📭</div>
                         <h3 class="empty-title">No Service Requests Found</h3>
                         <p class="empty-text">
-                            @if(request('status'))
+                            @if (request('status'))
                                 No requests with status "{{ request('status') }}" found.
                             @else
                                 You don't have any assigned service requests yet.

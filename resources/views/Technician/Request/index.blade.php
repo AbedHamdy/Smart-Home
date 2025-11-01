@@ -292,10 +292,10 @@
                     <h1 class="page-title">Service Requests</h1>
                 </div>
                 <div class="topbar-right">
-                    <div class="search-box">
+                    {{-- <div class="search-box">
                         <input type="text" placeholder="Search...">
                         <span class="search-icon">🔍</span>
-                    </div>
+                    </div> --}}
                     @include('layouts.notification')
                     <div class="user-menu">
                         <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=2563eb&color=fff" alt="Technician">

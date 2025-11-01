@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateServiceRequest;
 use App\Models\Category;
+use App\Models\Rating;
 use App\Models\ServiceRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,6 +49,7 @@ class ServiceRequestController extends Controller
         $data = $request->validated();
         $user = Auth::user();
         // dd($data);
+        $category = Category::where("id" , $data["category_id"])->first();
 
         if ($request->hasFile('image'))
         {
@@ -79,6 +81,7 @@ class ServiceRequestController extends Controller
             "latitude" => $data["latitude"],
             "longitude" => $data["longitude"],
             "image" => $data["image"],
+            "inspection_fee" => $category->price,
         ]);
 
         if(!$order)
@@ -96,7 +99,7 @@ class ServiceRequestController extends Controller
     public function show($id)
     {
         $user = Auth::user();
-        $order = ServiceRequest::with("category")
+        $order = ServiceRequest::with(["category" , "technician.user"])
             ->where("client_id", $user->userable_id)
             ->where("id" , $id)
             ->first();
@@ -106,7 +109,52 @@ class ServiceRequestController extends Controller
             return redirect()->back()->with("error" , "Sorry, this request was not found or you are not authorized to access it.");
         }
 
-        return view("Client.ServiceRequest.show" , compact("user" , "order"));
+        $technician = $order->technician;
+        // $completedOrders = $technician->completedRequests()->count();
+        $completedOrders = $technician ? $technician->completedRequests()->count() : 0;
+        // dd($technician->completedRequests);
+
+        return view("Client.ServiceRequest.show" , compact("user" , "order" , "technician" , "completedOrders"));
+    }
+
+    public function respond(Request $request, $id)
+    {
+        $data = $request->validate([
+            'action' => 'required|in:approve,reject',
+        ]);
+
+        $user = Auth::user();
+
+        $order = ServiceRequest::where("status" , "waiting_for_approval")
+            ->where("client_id", $user->userable_id)
+            ->where("id" , $id)
+            ->first();
+
+        if (!$order)
+        {
+            return redirect()->back()->with('error', 'Sorry, this request was not found or you are not authorized to access it.');
+        }
+
+        if ($request->action === 'approve')
+        {
+            $order->update([
+                "client_approved" => true,
+                "status" => "approved_for_repair",
+            ]);
+
+            return redirect()->back()->with("success" , "You have approved the repair request successfully. The technician will proceed with the repair process.");
+        }
+        elseif ($request->action === 'reject')
+        {
+            $order->update([
+                "client_approved" => false,
+                "status" => "canceled",
+            ]);
+
+            return redirect()->back()->with("error" , "You have rejected the repair quote. This service request has been canceled.");
+        }
+
+        return redirect()->back()->with("error" , "Invalid action. Please try again.");
     }
 
     /**

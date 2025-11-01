@@ -304,25 +304,23 @@
                                     </td>
                                     <td class="actions">
                                         <a href="{{ route("admin_technician_requests.show" , $request->id) }}"
-                                           class="btn btn-view"
-                                           title="View Details">
+                                            class="btn btn-view"
+                                            title="View Details">
                                             👁️ View
                                         </a>
 
                                         @if($request->cv_file)
                                             <a href="{{ asset( $request->cv_file) }}"
-                                               target="_blank"
-                                               class="btn btn-download"
-                                               title="Download CV">
+                                                target="_blank"
+                                                class="btn btn-download"
+                                                title="Download CV">
                                                 📄 CV
                                             </a>
                                         @endif
 
                                         @if(strtolower($request->status) === 'pending')
                                             <div class="action-buttons">
-                                                <form action="{{ route('admin_technician_requests.approve', $request->id) }}"
-                                                      method="POST"
-                                                      onsubmit="return confirm('Are you sure you want to approve this technician?')">
+                                                <form action="{{ route('admin_technician_requests.approve', $request->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to approve this technician?')">
                                                     @csrf
                                                     @method('PUT')
                                                     <button type="submit" class="btn btn-approve">
@@ -330,9 +328,7 @@
                                                     </button>
                                                 </form>
 
-                                                <form action="{{ route('admin_technician_requests.reject', $request->id) }}"
-                                                      method="POST"
-                                                      onsubmit="return confirm('Are you sure you want to reject this request?')">
+                                                <form action="{{ route('admin_technician_requests.reject', $request->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to reject this request?')">
                                                     @csrf
                                                     @method('PUT')
                                                     <button type="submit" class="btn btn-reject">

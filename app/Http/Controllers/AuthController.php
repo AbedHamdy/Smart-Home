@@ -75,6 +75,14 @@ class AuthController extends Controller
                         }
                     }
 
+                    if($user->role == "technician")
+                    {
+                        // $technician = $user->userable;
+                        $technician->update([
+                            "status" => "online",
+                        ]);
+                    }
+
                     return redirect()->route('technician_dashboard')->with('success', 'Welcome Technician!');
                 default:
                     Auth::logout();
@@ -149,7 +157,7 @@ class AuthController extends Controller
         catch(\Exception $e)
         {
             DB::rollback();
-            return redirect()->back()->with("error" , "Something went wrong while submitting your application. Please try again later.")->withInput();
+            return redirect()->back()->with("error" , "Something went wrong while submitting your application. Please try again later." . $e->getMessage())->withInput();
         }
     }
 
@@ -187,7 +195,7 @@ class AuthController extends Controller
             }
 
             DB::commit();
-            return redirect()->back()->with("success" , "Your client account has been created successfully!");
+            return redirect()->route("login")->with("success" , "Your client account has been created successfully!");
         }
         catch(\Exception $e)
         {
@@ -198,6 +206,15 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $user = Auth::user();
+        if($user->role == "technician")
+        {
+            $technician = $user->userable;
+            $technician->update([
+                "status" => "Offline",
+            ]);
+        }
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
